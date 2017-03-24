@@ -1,1 +1,1 @@
-Acquire::http::Proxy "http://yourproxy:yourport/"
+Acquire::http::Proxy "http://yourproxy:yourport/";
