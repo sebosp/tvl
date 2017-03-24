@@ -6,6 +6,7 @@ COPY files/bashrc /home/sre/.bashrc
 COPY files/preexec.bash.sh /home/sre/preexec.bash.sh
 COPY files/screen-preexec.sh /home/sre/screen-preexec.sh
 COPY files/screenrc /home/sre/.screenrc
+COPY files/git-prompt.sh /home/sre/
 COPY files/vimrc /home/sre/.vimrc
 COPY files/vim /home/sre/.vim
 COPY files/kubectl /usr/bin/
