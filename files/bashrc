@@ -69,11 +69,11 @@ GIT_PS1_DESCRIBE_STYLE="branch"
 GIT_PS1_SHOWUPSTREAM="auto git"
 PS1="${PREPS1}${COREPS1}${POSPS1}"
 
-PATH="/home/sre/perl5/bin${PATH+:}${PATH}"; export PATH;
-PERL5LIB="/home/sre/perl5/lib/perl5${PERL5LIB+:}${PERL5LIB}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/sre/perl5${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/sre/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/sre/perl5"; export PERL_MM_OPT;
+export PATH="/home/sre/work/chroot/jessie/perl5/bin${PATH+:}${PATH}";
+export PERL5LIB="/home/sre/work/chroot/jessie/perl5/lib/work/chroot/jessie/perl5${PERL5LIB+:}${PERL5LIB}";
+export PERL_LOCAL_LIB_ROOT="/home/sre/work/chroot/jessie/perl5${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}";
+export PERL_MB_OPT="--install_base \"/home/sre/work/chroot/jessie/perl5\"";
+export PERL_MM_OPT="INSTALL_BASE=/home/sre/work/chroot/jessie/perl5";
 
 source ~/preexec.bash.sh
 if [[ $TERM =~ "screen" ]]; then
@@ -82,3 +82,4 @@ if [[ $TERM =~ "screen" ]]; then
 fi
 alias R='R --quiet'
 export HOMEBREW_GITHUB_API_TOKEN=3b72390bceed73705b6d1c9c4ef7b50e41d4fae6
+cd /home/sre
