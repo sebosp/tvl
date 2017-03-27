@@ -1,4 +1,4 @@
-# tvl 0.0.1
+# tvl 0.0.3
 Docker setup with common work tools
 
 ## Use
@@ -10,7 +10,7 @@ The purpose is to have an env with:
 - AWS CLI
 - Git
 ```bash
-$ docker run --rm -v $HOME/:/home/sre/work/ -e LOCAL_USER_ID=`id -u $USER` -it tvl:0.0.1 /bin/bash
+$ docker run --rm -v $HOME/:/home/sre/work/ -e LOCAL_USER_ID=`id -u $USER` -it tvl:0.0.3 /bin/bash
 ```
 
 ## Prerequisites for building
