@@ -1,7 +1,7 @@
 # tvl 0.0.3
 Docker setup with common work tools
 
-## Use
+## Utils included
 The purpose is to have an env with:
 - Puppet
 - Vim (With PaperColor, syntastic, etc)
@@ -9,8 +9,14 @@ The purpose is to have an env with:
 - Packer
 - AWS CLI
 - Git
+
+## Running
 ```bash
-$ docker run --rm -v $HOME/:/home/sre/work/ -e LOCAL_USER_ID=`id -u $USER` -e TERM=xterm-256color -it tvl:0.0.3 /bin/bash
+ # If you want to have history for docker separately, do this:
+$ touch $HOME/.docker_bash_hist
+ # Otherwise, you can do this to have bash_history shared
+$ ln -s $HOME/.bash_history $HOME/.docker_bash_hist
+$ docker run --rm -v $HOME/:/home/sre/work/ -v $HOME/.docker_bash_hist:/home/sre/.bash_history -e LOCAL_USER_ID=`id -u $USER` -e TERM=xterm-256color -it tvl:0.0.3 /bin/bash
 ```
 
 ## Prerequisites for building

@@ -12,8 +12,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     && rm /usr/local/bin/gosu.asc \
     && chmod +x /usr/local/bin/gosu \
     && dpkg -i /tmp/puppetlabs-release-pc1-jessie.deb \
-    && rm /tmp/puppetlabs-release-pc1-jessie.deb \
-    && chmod a+x /usr/bin/kubectl
+    && rm /tmp/puppetlabs-release-pc1-jessie.deb
 COPY files/bashrc /home/sre/.bashrc
 COPY files/screenrc /home/sre/.screenrc
 COPY files/vimrc /home/sre/.vimrc
@@ -25,4 +24,5 @@ COPY files/kubectl /usr/bin/
 COPY files/packer /usr/bin/
 COPY files/terraform /usr/bin/
 COPY files/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod a+x /usr/bin/kubectl
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
