@@ -1,4 +1,4 @@
-# tvl 0.0.4
+# tvl 0.0.5
 Docker setup with common work tools
 
 ## Utils included
@@ -16,7 +16,7 @@ The purpose is to have an env with:
 $ touch $HOME/.docker_bash_hist
  # Otherwise, you can do this to have bash_history shared
 $ ln -s $HOME/.bash_history $HOME/.docker_bash_hist
-$ docker run --rm -v $HOME/:/home/sre/work/ -v $HOME/.docker_bash_hist:/home/sre/.bash_history -e LOCAL_USER_ID=`id -u $USER` -e TERM=xterm-256color -it tvl:0.0.4 /bin/bash
+$ docker run --rm -v $HOME/:/home/sre/work/ -e LOCAL_USER_ID=`id -u $USER` -it tvl:0.0.5 /bin/bash
 ```
 
 ## Prerequisites for building
