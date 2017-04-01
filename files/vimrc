@@ -1,5 +1,8 @@
-"let g:tex_flavor = "latex"
+set nocompatible | filetype indent plugin on | syn on
+execute pathogen#infect('~/.vim/bundle/{}')
+let g:tex_flavor = "latex"
 "set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/after
+set shell=/bin/bash
 set t_Co=256
 set background=dark
 color PaperColor
@@ -7,7 +10,6 @@ syn on
 set hlsearch
 set incsearch
 set number
-filetype indent plugin on
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1

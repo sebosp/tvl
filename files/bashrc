@@ -15,7 +15,7 @@ export HISTSIZE=10000
 export HISTFILESIZE=50000
 shopt -s histappend
 export HISTCONTROL=ignoreboth:erasedups
-export HISTFILE=$HOME/.bash_history
+export HISTFILE=$HOME/work/.dock_bash_hist
 source ~/git-prompt.sh
 export PREPS1='__git_ps1 '
 export POSPS1=' "\\\$ "'
@@ -82,4 +82,10 @@ if [[ $TERM =~ "screen" ]]; then
 fi
 alias R='R --quiet'
 export HOMEBREW_GITHUB_API_TOKEN=3b72390bceed73705b6d1c9c4ef7b50e41d4fae6
+export LANG="en_US"
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/sre/chroot/lib/
+export PATH="/usr/lib/ruby/vendor_ruby/:${PATH}"
+export TERM=screen-256color
+# Add a forced cd to home, the container drops us to / which is usually undesired.
+# I guess this will have a bad side effect...
 cd /home/sre
