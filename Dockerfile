@@ -1,16 +1,14 @@
 FROM alpine:3.5
 MAINTAINER Seb Osp <kraige@gmail.com>
 ENV L0_REFRESHED_AT 20170401
-COPY files/puppetlabs-release-pc1-jessie.deb /tmp/
 COPY files/vim /home/sre/.vim
-# removed pcituls
 RUN apk add --update \
-       ruby ruby-bundler ruby-irb ruby-dev ruby-rdoc vim bash curl findutils ca-certificates \
-       python py-pip ansible screen git openssh-client shadow perl go ncurses-terminfo ctags \
+       ansible bash ca-certificates ctags curl findutils git less mtr ncurses-terminfo openssh-client \
+       perl python py-pip ruby ruby-bundler screen shadow vim  \
     && echo http://dl-4.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories \
     && apk add --update gosu \
     && rm -rf /var/cache/apk/* \
-    && gem install puppet:4.8.2 facter:2.4.6 puppet-lint \
+    && gem install --no-rdoc --no-ri --no-document puppet:4.8.2 facter:2.4.6 puppet-lint \
     && /usr/bin/puppet module install puppetlabs-apk \
     && rm /usr/lib/ruby/gems/2.3.0/gems/facter-2.4.6/lib/facter/blockdevices.rb \
     && mkdir /home/sre/.vim/autoload/ \
@@ -28,7 +26,10 @@ RUN apk add --update \
     && pip install --upgrade pip \
     && pip install --upgrade awscli flake8 \
     && mkdir /home/sre/.puppetlabs \
-    && chmod a+rw /home/sre/.puppetlabs
+    && chmod a+rw /home/sre/.puppetlabs \
+    && curl -SLO https://raw.github.com/petervanderdoes/gitflow-avh/develop/contrib/gitflow-installer.sh \
+    && sh gitflow-installer.sh install stable \
+    && rm -rf gitflow-installer.sh /usr/local/share/doc/gitflow /usr/share/vim/vim80/doc
 COPY files/bashrc /home/sre/.bashrc
 COPY files/screenrc /home/sre/.screenrc
 COPY files/preexec.bash.sh /home/sre/
