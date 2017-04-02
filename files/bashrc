@@ -5,7 +5,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias ls='ls -G'
+alias ls='ls --color=auto'
 #COREPS1='"[\u@\h \W]"'
 #COREPS1='\A \[\e[36m\]\u:[\w]\[\e[0m\] $ '
 COREPS1='"\A \[\e[36m\]\u\[\e[0;31m\]@\h\[\e[0;31m\]\[\e[m\]:[\[\e[1;30m\]\w\[\e[m\]]"'
@@ -86,6 +86,6 @@ export LANG="en_US"
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/sre/chroot/lib/
 export PATH="/usr/lib/ruby/vendor_ruby/:${PATH}"
 export TERM=screen-256color
-# Add a forced cd to home, the container drops us to / which is usually undesired.
+# Add a forced cd to home/work, the default mount location, (by defaut the container drops us to / which is usually undesired.)
 # I guess this will have a bad side effect...
-cd /home/sre
+cd /home/sre/work
