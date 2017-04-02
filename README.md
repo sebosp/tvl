@@ -1,7 +1,10 @@
-# tvl 0.0.6
+# tvl 0.0.7
 Docker setup with my common work tools
-Alpine based: tvl                       0.0.6                         d061e3e151c4        14 minutes ago      796 MB
-Debian based: tvl                       0.0.5                         739559042d96        17 hours ago        657 MB
+| Base | version | size |
+| --- | --- | --- |
+|Alpine3.5 | 0.0.7 | 518 MB|
+|Alpine3.5 | 0.0.6 | 796 MB|
+|Debian8.7 | 0.0.5 | 657 MB|
 
 Part of the motivation for using alpine was passing quay.io security tests.
 The Debian based had 99 vulnerabilities, whereas alpine passes.
@@ -10,12 +13,15 @@ Alpine ends up being bigger tho...
 
 ## Utils included
 The purpose is to have an env with:
-- Puppet
-- Vim (With PaperColor, syntastic, etc)
+- Puppet (With Lint)
+- Vim (With PaperColor, syntastic, airline, pathogen, etc)
+- Ansible
 - Terraform
 - Packer
 - AWS CLI
 - Git
+- Git-flow
+- Bash with git-prompt setup
 
 ## Running
 ```bash
@@ -23,7 +29,7 @@ The purpose is to have an env with:
 $ touch $HOME/.docker_bash_hist
  # Otherwise, you can do this to have bash_history shared
 $ ln -s $HOME/.bash_history $HOME/.docker_bash_hist
-$ docker run --rm -v $HOME/:/home/sre/work/ -e LOCAL_USER_ID=`id -u $USER` -it tvl:0.0.6 /bin/bash
+$ docker run --rm -v $HOME/:/home/sre/work/ -v $HOME/.gitconfig:/home/sre/.gitconfig -e LOCAL_USER_ID=`id -u $USER` -it tvl:0.0.7 /bin/bash
 ```
 
 ## Prerequisites for building

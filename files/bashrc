@@ -86,8 +86,8 @@ export LANG="en_US"
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/sre/chroot/lib/
 export PATH="/usr/lib/ruby/vendor_ruby/:${PATH}"
 export TERM=screen-256color
-export GIT_PAGER=cat git diff
-export LESS='-F -X $LESS'
+export GIT_CONFIG=/home/sre/work/.gitconfig
+export LESS='-R'
 # Add a forced cd to home/work, the default mount location, (by defaut the container drops us to / which is usually undesired.)
 # I guess this will have a bad side effect...
 cd /home/sre/work
