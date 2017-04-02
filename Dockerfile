@@ -3,7 +3,7 @@ MAINTAINER Seb Osp <kraige@gmail.com>
 ENV L0_REFRESHED_AT 20170401
 COPY files/vim /home/sre/.vim
 RUN apk add --update \
-       ansible bash ca-certificates ctags curl findutils git mtr ncurses-terminfo openssh-client \
+       ansible bash ca-certificates ctags curl findutils git less mtr ncurses-terminfo openssh-client \
        perl python py-pip ruby ruby-bundler screen shadow vim  \
     && echo http://dl-4.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories \
     && apk add --update gosu \
@@ -29,7 +29,7 @@ RUN apk add --update \
     && chmod a+rw /home/sre/.puppetlabs \
     && curl -SLO https://raw.github.com/petervanderdoes/gitflow-avh/develop/contrib/gitflow-installer.sh \
     && sh gitflow-installer.sh install stable \
-    && rm -rf gitflow-installer.sh /usr/local/share/doc/gitflow /usr/share/vim/vim80
+    && rm -rf gitflow-installer.sh /usr/local/share/doc/gitflow /usr/share/vim/vim80/doc
 COPY files/bashrc /home/sre/.bashrc
 COPY files/screenrc /home/sre/.screenrc
 COPY files/preexec.bash.sh /home/sre/
