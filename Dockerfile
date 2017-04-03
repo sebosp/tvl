@@ -44,5 +44,6 @@ COPY files/vimrc /home/sre/.vimrc
 COPY files/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod a+x /usr/bin/kubectl && updatedb
 RUN ln -s  /home/sre/work/.gitconfig /home/sre/.gitconfig \
-    && ln -s /home/sre/work/.kube /home/sre/.kube
+    && ln -s /home/sre/work/.kube /home/sre/.kube \
+    && ln -s /home/sre/work/.aws /home/sre/.aws
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
