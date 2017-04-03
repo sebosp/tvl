@@ -1,4 +1,4 @@
-# tvl 0.0.7
+# tvl 0.0.7 (hotfix 1)
 Docker setup with my common work tools
 | Base | version | size |
 | --- | --- | --- |
@@ -10,6 +10,11 @@ Part of the motivation for using alpine was passing quay.io security tests.
 The Debian based had 99 vulnerabilities, whereas alpine passes.
 Debian package has 150 packages, alpine ends up with with 91 packages.
 Alpine ends up being bigger tho...
+
+## Current issues
+- git diff opens up LESS even when the output is less than a page.
+  When setting -F less won't open at all (regardless of output length).
+  I suspect this could somethig to do with TERM capabilities,size,etc...
 
 ## Utils included
 The purpose is to have an env with:
@@ -29,7 +34,7 @@ The purpose is to have an env with:
 $ touch $HOME/.docker_bash_hist
  # Otherwise, you can do this to have bash_history shared
 $ ln -s $HOME/.bash_history $HOME/.docker_bash_hist
-$ docker run --rm -v $HOME/:/home/sre/work/ -v $HOME/.gitconfig:/home/sre/.gitconfig -e LOCAL_USER_ID=`id -u $USER` -it tvl:0.0.7 /bin/bash
+$ docker run --rm -v $HOME/:/home/sre/work/ -e LOCAL_USER_ID=`id -u $USER` -it tvl:0.0.7 /bin/bash
 ```
 
 ## Prerequisites for building
