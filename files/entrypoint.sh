@@ -21,7 +21,7 @@ if [[ -d "/home/sre/work" ]]; then
 		mkdir /home/sre/work/.kube
 		chmod 700 /home/sre/work/.aws
 	fi
-	if [[ ! -d "/home/sre/work/.gitconfig" ]]; then
+	if [[ ! -f "/home/sre/work/.gitconfig" ]]; then
 		echo "Missing host's .gitconfig file, please run: ";
 		echo '$ git config --global user.name "John Doe"'
 		echo '$ git config --global user.email johndoe@example.com"'
