@@ -1,4 +1,4 @@
-# tvl 0.0.7 (hotfix 1)
+# tvl 0.0.7 (hotfix 2)
 Docker setup with my common work tools
 | Base | version | size |
 | --- | --- | --- |
@@ -27,6 +27,7 @@ The purpose is to have an env with:
 - Git
 - Git-flow
 - Bash with git-prompt setup
+- kubectl for kubernetes.
 
 ## Running
 ```bash
@@ -37,6 +38,10 @@ $ ln -s $HOME/.bash_history $HOME/.docker_bash_hist
 $ docker run --rm -v $HOME/:/home/sre/work/ -e LOCAL_USER_ID=`id -u $USER` -it tvl:0.0.7 /bin/bash
 ```
 
+## TODO
+- All links in the Prerequisites can be downloaded from the Dockerfile
+- Document explicit versions of included tools a la .so.X.Y.Z files to cope with different environment setup.
+
 ## Prerequisites for building
 ```bash
 $ cd files
@@ -44,6 +49,5 @@ $ curl -sLO https://releases.hashicorp.com/terraform/0.9.1/terraform_0.9.1_linux
 $ unzip terraform_0.9.1_linux_amd64.zip && rm terraform_0.9.1_linux_amd64.zip
 $ curl -sLO https://releases.hashicorp.com/packer/0.12.3/packer_0.12.3_linux_amd64.zip
 $ unzip packer_0.12.3_linux_amd64.zip && rm packer_0.12.3_linux_amd64.zip
-$ curl -sLO https://apt.puppetlabs.com/puppetlabs-release-pc1-jessie.deb
 $ curl -sLO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 ```
