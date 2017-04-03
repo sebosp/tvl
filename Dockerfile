@@ -29,6 +29,7 @@ RUN apk add --update \
     && chmod a+rw /home/sre/.puppetlabs \
     && curl -SLO https://raw.github.com/petervanderdoes/gitflow-avh/develop/contrib/gitflow-installer.sh \
     && sh gitflow-installer.sh install stable \
+    && sed -i 's/readlink -e/readlink -f/g' /usr/local/bin/git-flow \
     && rm -rf gitflow-installer.sh /usr/local/share/doc/gitflow /usr/share/vim/vim80/doc
 COPY files/bashrc /home/sre/.bashrc
 COPY files/screenrc /home/sre/.screenrc
@@ -42,4 +43,5 @@ RUN vim -E -c "execute pathogen#infect('~/.vim/bundle/{}')" -c "execute pathogen
 COPY files/vimrc /home/sre/.vimrc
 COPY files/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod a+x /usr/bin/kubectl && updatedb
+RUN ln -s  /home/sre/work/.gitconfig /home/sre/.gitconfig
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
