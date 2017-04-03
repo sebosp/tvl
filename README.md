@@ -1,4 +1,4 @@
-# tvl 0.0.7 (hotfix 3)
+# tvl 0.0.7 (hotfix 4)
 Docker setup with my common work tools
 
 | Base | version | size |
@@ -11,6 +11,11 @@ Part of the motivation for using alpine was passing quay.io security tests.
 The Debian based had 99 vulnerabilities, whereas alpine passes.
 Debian package has 150 packages, alpine ends up with with 91 packages.
 Alpine ends up being bigger tho...
+
+## Pulling
+```bash
+$ docker pull sebosp/tvl
+```
 
 ## Current issues
 - git diff opens up LESS even when the output is less than a page.
