@@ -21,6 +21,11 @@ if [[ -d "/home/sre/work" ]]; then
 		mkdir /home/sre/work/.kube
 		chmod 700 /home/sre/work/.kube
 	fi
+	if [[ ! -d "/home/sre/work/.ansible" ]]; then
+		echo "Missing host's .ansible directory, creating..."
+		mkdir /home/sre/work/.ansible
+		chmod 700 /home/sre/work/.ansible
+	fi
 	if [[ ! -f "/home/sre/work/.gitconfig" ]]; then
 		echo "Missing host's .gitconfig file, please run: ";
 		echo '$ git config --global user.name "John Doe"'
