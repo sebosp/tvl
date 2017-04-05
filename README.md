@@ -1,10 +1,10 @@
 [![Docker Repository on Quay](https://quay.io/repository/sebosp/tvl/status?token=84ddb0a8-9059-4c43-9125-6d3949ad3e7f "Docker Repository on Quay")](https://quay.io/repository/sebosp/tvl)
-# tvl 0.0.7 (hotfix 4)
+# tvl 0.0.8
 Docker setup with my common work tools for Infrastructure As Code, Configuration Management, vIM
 
 | Base | version | size |
 | --- | --- | --- |
-|Alpine3.5 | 0.0.8 | 518 MB|
+|Alpine3.5 | 0.0.8 | 489 MB|
 |Alpine3.5 | 0.0.7 | 518 MB|
 |Alpine3.5 | 0.0.6 | 796 MB|
 |Debian8.7 | 0.0.5 | 657 MB|
@@ -24,7 +24,7 @@ Debian package has 150 packages, alpine ends up with with 91 packages.
 
 ## Pulling
 ```bash
-$ docker pull sebosp/tvl
+$ docker pull sebosp/tvl:0.0.8
 ```
 
 - Vim (With PaperColor, syntastic, airline, pathogen, etc)
@@ -43,7 +43,7 @@ $ docker pull sebosp/tvl
 $ touch $HOME/.docker_bash_hist
  # Otherwise, you can do this to have bash_history shared
 $ ln -s $HOME/.bash_history $HOME/.docker_bash_hist
-$ docker run --rm -v $HOME/:/home/sre/work/ -e LOCAL_USER_ID=`id -u $USER` -it tvl:0.0.7 /bin/bash
+$ docker run --rm -v $HOME/:/home/sre/work/ -e LOCAL_USER_ID=`id -u $USER` -it tvl:0.0.8 /bin/bash
 ```
 
 ## Workarounds
@@ -64,4 +64,4 @@ $ chmod +x ~/.wakeup
   I suspect this could somethig to do with TERM capabilities,size,etc...
 
 ## TODO
-- ... 
+- mount docker socket so that we can manage Docker within Docker?
