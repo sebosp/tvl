@@ -40,6 +40,7 @@ RUN apk add --update \
     && git clone --depth 1 https://github.com/scrooloose/syntastic \
     && git clone --depth 1 https://github.com/chase/vim-ansible-yaml \
     && git clone --depth 1 https://github.com/SirVer/ultisnips \
+    && git clone --depth 1 https://github.com/honza/vim-snippets \
     && pip3 install --upgrade pip \
     && pip3 install --upgrade awscli flake8 \
     && mkdir /home/sre/.puppetlabs \
