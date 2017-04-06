@@ -9,7 +9,7 @@ ENV KUBECTL_VERSION 1.6.1
 COPY files/vim /home/sre/.vim
 RUN apk add --update \
        ansible bash ca-certificates ctags curl findutils git jq less mtr ncurses-terminfo openssh-client \
-       perl python py-pip ruby ruby-bundler screen shadow vim vimdiff \
+       perl python3 py3-pip ruby ruby-bundler screen shadow vim vimdiff \
     && echo http://dl-4.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories \
     && apk add --update gosu \
     && rm -rf /var/cache/apk/* \
@@ -40,8 +40,8 @@ RUN apk add --update \
     && git clone --depth 1 https://github.com/scrooloose/syntastic \
     && git clone --depth 1 https://github.com/chase/vim-ansible-yaml \
     && git clone --depth 1 https://github.com/SirVer/ultisnips \
-    && pip install --upgrade pip \
-    && pip install --upgrade awscli flake8 \
+    && pip3 install --upgrade pip \
+    && pip3 install --upgrade awscli flake8 \
     && mkdir /home/sre/.puppetlabs \
     && chmod a+rw /home/sre/.puppetlabs \
     && curl -SLO https://raw.github.com/petervanderdoes/gitflow-avh/develop/contrib/gitflow-installer.sh \
