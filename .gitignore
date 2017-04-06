@@ -1,8 +1,3 @@
 # Compiled files
 *.tfstate
 *.tfstate.backup
-70proxy
-terraform
-packer
-kubectl
-puppetlabs-release-pc1-jessie.deb

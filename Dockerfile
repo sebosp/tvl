@@ -58,6 +58,8 @@ COPY files/screenrc /home/sre/.screenrc
 COPY files/preexec.bash.sh /home/sre/
 COPY files/screen-preexec.sh /home/sre/
 COPY files/git-prompt.sh /home/sre/
+COPY files/k8s-prompt.sh /home/sre/
+COPY files/aws-prompt.sh /home/sre/
 COPY files/vimrc /home/sre/.vimrc
 RUN vim -E -c "execute pathogen#infect('~/.vim/bundle/{}')" -c "execute pathogen#helptags()" -c q ; return 0 \
     && updatedb
