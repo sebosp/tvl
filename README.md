@@ -43,7 +43,7 @@ $ docker pull sebosp/tvl:0.0.8
 $ touch $HOME/.docker_bash_hist
  # Otherwise, you can do this to have bash_history shared
 $ ln -s $HOME/.bash_history $HOME/.docker_bash_hist
-$ docker run --rm -v $HOME/:/home/sre/work/ -e LOCAL_USER_ID=`id -u $USER` -it tvl:0.0.8 /bin/bash
+$ docker run --rm -v $HOME/:/home/sre/work/ -e LOCAL_USER_ID=`id -u $USER` -it sebosp/tvl:0.0.8 /bin/bash
 ```
 
 ## Workarounds
