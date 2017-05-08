@@ -12,8 +12,8 @@ ENV GOPATH="/home/sre/go"
 ENV PATH="$PATH:$GOBIN:$GOPATH/bin"
 COPY files/vim /home/sre/.vim
 RUN apk add --update \
-       ansible bash build-base ca-certificates clang cmake ctags curl findutils go git jq less llvm mtr ncurses-terminfo \
-       openssh-client perl python python-dev python3 py3-pip ruby ruby-bundler screen shadow vim vimdiff \
+       ansible bash build-base ca-certificates cmake ctags curl file findutils go git jq less llvm mtr \
+       ncurses-terminfo openssh-client perl python python-dev python3 py3-pip ruby ruby-bundler screen shadow vim vimdiff \
     && echo http://dl-4.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories \
     && apk add --update gosu \
     && curl -sLO https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
@@ -44,10 +44,12 @@ RUN apk add --update \
     && git clone --depth 1 https://github.com/chase/vim-ansible-yaml \
     && git clone --depth 1 https://github.com/SirVer/ultisnips \
     && git clone --depth 1 https://github.com/honza/vim-snippets \
+    && git clone --depth 1 https://github.com/sebosp/vim-snippets-terraform \
+    && mv vim-snippets-terraform/terraform.snippets vim-snippets/UltiSnips/ \
     && git clone --depth 1 https://github.com/Valloric/YouCompleteMe \
     && cd YouCompleteMe \
     && git submodule update --init --recursive \
-    && ./install.py --gocode-completer \
+    && ./install.py \
     && pip3 install --upgrade pip \
     && pip3 install --upgrade awscli flake8 \
     && mkdir /home/sre/.puppetlabs \
@@ -59,7 +61,8 @@ RUN apk add --update \
     && ln -s /home/sre/work/.gitconfig /home/sre/.gitconfig \
     && ln -s /home/sre/work/.kube /home/sre/.kube \
     && ln -s /home/sre/work/.aws /home/sre/.aws \
-    && ln -s /home/sre/work/.ssh /home/sre/.ssh
+    && ln -s /home/sre/work/.ssh /home/sre/.ssh \
+    && vim -E -c "execute pathogen#infect('~/.vim/bundle/{}')" -c "execute pathogen#helptags()" -c q ; return 0
 COPY files/bashrc /home/sre/.bashrc
 COPY files/screenrc /home/sre/.screenrc
 COPY files/preexec.bash.sh /home/sre/
@@ -68,18 +71,13 @@ COPY files/git-prompt.sh /home/sre/
 COPY files/k8s-prompt.sh /home/sre/
 COPY files/aws-prompt.sh /home/sre/
 COPY files/vimrc /home/sre/.vimrc
-ENV XC_OS=darwin
-ENV XC_ARCH=amd64
-RUN mkdir -p /home/sre/go/{src,bin} \
-    && mkdir -p /home/sre/go/src/github.com/hashicorp \
-    && cd /home/sre/go/src/github.com/hashicorp \
-    && git clone --depth 1 https://github.com/hashicorp/terraform \
-    && cd terraform \
-    && make \
-    && apk del build-base cmake python python-dev llvm \
+RUN apk del build-base cmake python python-dev llvm \
     && rm -rf /var/cache/apk/* \
+    && rm -rf /home/sre/.vim/bundle/YouCompleteMe/third_party/ycmd/clang_includes \
+    && rm -rf /home/sre/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp \
+    && rm -rf /usr/lib/go \
+    && rm -rf /var/cache/* \
+    && mkdir /var/cache/apk \
     && updatedb
-# go get -u github.com/hashicorp/terraform \
-RUN vim -E -c "execute pathogen#infect('~/.vim/bundle/{}')" -c "execute pathogen#helptags()" -c q ; return 0
 COPY files/entrypoint.sh /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

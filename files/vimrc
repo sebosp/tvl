@@ -32,4 +32,5 @@ highlight rightMargin ctermbg=235
 2match rightMargin /.\%>80v/    
 set viminfo='10,\"100,:20,%,n~/work/.viminfo
 set statusline=%f:%4l/%-4L\ -\ [Col:\ %3v]\ -\ %y\ %#warningmsg#%{SyntasticStatuslineFlag()}%*
-let g:UltiSnipsExpandTrigger="<c-e>"
+let g:ycm_key_list_select_completion=[]
+let g:ycm_key_list_previous_completion=[]
