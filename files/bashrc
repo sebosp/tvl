@@ -31,7 +31,10 @@ export GIT_PS1_SHOWUPSTREAM="auto git"
 export PROMPT_COMMAND="${PREPS1}${COREPS1}${POSPS1}"
 source ~/git-prompt.sh
 
-export PATH="/home/sre/perl5/bin${PATH+:}${PATH}";
+export GOROOT=/usr/lib/go
+export GOPATH=/home/sre/work/go/workspace
+export GOBIN=$GOROOT/bin
+export PATH="/home/sre/perl5/bin${PATH+:}${PATH}:$GOBIN:$GOPATH:$GOPATH/bin:/usr/lib/ruby/vendor_ruby";
 export PERL5LIB="/home/sre/perl5/lib${PERL5LIB+:}${PERL5LIB}";
 export PERL_LOCAL_LIB_ROOT="/home/sre/perl5${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}";
 export PERL_MB_OPT="--install_base \"/home/sre/perl5\"";
@@ -47,7 +50,6 @@ alias R='R --quiet'
 export HOMEBREW_GITHUB_API_TOKEN=3b72390bceed73705b6d1c9c4ef7b50e41d4fae6
 export LANG="en_US"
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/sre/chroot/lib/
-export PATH="/usr/lib/ruby/vendor_ruby/:${PATH}"
 export TERM=screen-256color
 export LESS='-R'
 # Add a forced cd to home/work, the default mount location, (by defaut the container drops us to / which is usually undesired.)
