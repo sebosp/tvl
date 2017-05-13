@@ -21,6 +21,16 @@ if [[ -d "/home/sre/work" ]]; then
 		mkdir /home/sre/work/.kube
 		chmod 700 /home/sre/work/.kube
 	fi
+	if [[ ! -d "/home/sre/work/.minikube" ]]; then
+		echo "Missing host's .minikube directory, creating..."
+		mkdir /home/sre/work/.minikube
+		chmod 700 /home/sre/work/.minikube
+	elif [[ -e /home/sre/work/.kube/config ]]; then
+		# The paths in minikube are absolute, we need to create the fake root hierarchy then:
+		minikubeHome=$(grep minikube /home/sre/work/.kube/config |grep client-cert|cut -d: -f2|cut -d' ' -f2|sed 's/\.minikube.*$//');
+		mkdir -p $minikubeHome
+		ln -s /home/sre/work/.minikube ${minikubeHome}/.minikube 
+	fi
 	if [[ ! -d "/home/sre/work/.ansible" ]]; then
 		echo "Missing host's .ansible directory, creating..."
 		mkdir /home/sre/work/.ansible
