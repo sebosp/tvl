@@ -52,6 +52,10 @@ export LANG="en_US"
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/sre/chroot/lib/
 export TERM=screen-256color
 export LESS='-R'
+alias ll='ls -l'
+alias la='ls -la'
+alias yaml2json="ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(STDIN.read))'"
+alias json2yaml="ruby -ryaml -rjson -e 'puts YAML.dump(JSON.parse(STDIN.read))'"
 # Add a forced cd to home/work, the default mount location, (by defaut the container drops us to / which is usually undesired.)
 # I guess this will have a bad side effect...
 cd /home/sre/work

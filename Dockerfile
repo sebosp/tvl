@@ -12,8 +12,8 @@ ENV GOPATH="/home/sre/go"
 ENV PATH="$PATH:$GOBIN:$GOPATH/bin"
 COPY files/vim /home/sre/.vim
 RUN apk add --update \
-       ansible bash build-base ca-certificates cmake ctags curl file findutils go git jq less llvm mtr \
-       ncurses-terminfo openssh-client perl python python-dev python3 py3-pip ruby ruby-bundler screen shadow vim vimdiff \
+       ansible bash build-base ca-certificates cmake ctags curl file findutils go git jq less llvm man-pages mdocml-apropos \
+       mtr ncurses-terminfo openssh-client perl python python-dev python3 py3-pip ruby ruby-bundler screen shadow vim vimdiff \
     && echo http://dl-4.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories \
     && apk add --update gosu \
     && curl -sLO https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
@@ -75,9 +75,9 @@ RUN apk del build-base cmake python python-dev llvm \
     && rm -rf /var/cache/apk/* \
     && rm -rf /home/sre/.vim/bundle/YouCompleteMe/third_party/ycmd/clang_includes \
     && rm -rf /home/sre/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp \
-    && rm -rf /usr/lib/go \
     && rm -rf /var/cache/* \
     && mkdir /var/cache/apk \
+    && /usr/sbin/makewhatis -a -T utf8 /usr/share/man \
     && updatedb
 COPY files/entrypoint.sh /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
