@@ -1,5 +1,5 @@
 [![Docker Repository on Quay](https://quay.io/repository/sebosp/tvl/status?token=84ddb0a8-9059-4c43-9125-6d3949ad3e7f "Docker Repository on Quay")](https://quay.io/repository/sebosp/tvl)
-# tvl 0.0.9
+# tvl 1.0.1
 [![tvl asciicast](https://asciinema.org/a/119550.png)](https://asciinema.org/a/119550)
 
 Docker setup with my common work tools for Infrastructure As Code, Configuration Management, vIM
