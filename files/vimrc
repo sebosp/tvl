@@ -30,8 +30,7 @@ au BufRead,BufNewFile *.tfstate setlocal filetype=javascript
 setl updatetime=200
 highlight rightMargin ctermbg=235
 2match rightMargin /.\%>80v/    
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+au BufNewFile,BufRead *.yml set filetype=ansible
+autocmd FileType ansible setlocal ts=2 sts=2 sw=2 expandtab indentkeys=!^Fo,O,0#,<:>,=-
 set viminfo='10,\"100,:20,%,n~/work/.viminfo
 set statusline=%f:%4l/%-4L\ -\ [Col:\ %3v]\ -\ %y\ %#warningmsg#%{SyntasticStatuslineFlag()}%*
-let g:ycm_key_list_select_completion=[]
-let g:ycm_key_list_previous_completion=[]

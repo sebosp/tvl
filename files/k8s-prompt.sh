@@ -2,12 +2,25 @@ __k8s_prompt ()
 {
   # Use this var to control display of the AWS prompt.
   if [[ "1" == "${K8S_PS1_SHOW}" ]]; then
-    k8sctx=$(grep "current-context:" ~/.kube/config | cut -d' ' -f2)
-    if [[ -z "${k8sctx}" ]]; then
-      k8sctx=$(grep server: ~/.kube/config|cut -d: -f3|cut -d/ -f3|cut -c-14)
+    if [[ -z "$K8S_PROMT_TTL" ]]; then
+      export K8S_PROMT_TTL=15
     fi
-    if [[ "x" != "x${k8sctx}" ]]; then
-      printf -- '[%s]' " k8s:${k8sctx}"
+    if [[ -z "$K8S_LAST_PROMPT_CHECK" ]]; then
+      export K8S_LAST_PROMPT_CHECK=$(date +'%s')
+    fi
+    if [[ $(($K8S_PROMT_TTL + $K8S_LAST_PROMPT_CHECK)) < $(date +'%s') ]]; then
+      export K8SCTX=$(kubectl config current-context)
+      export K8SNS=$(kubectl config view -o json|jq ".contexts | map(select(.name| contains(\"$K8SCTX\")))[0]|.context.namespace" -r|cut -c-10)
+      export K8S_LAST_PROMPT_CHECK=$(date +'%s')
+    fi
+    if [[ -z "${K8SCTX}" ]]; then
+      export K8SCTX="NONE"
+    fi
+    if [[ "null" == "${K8SNS}" ]]; then
+      export K8SNS="default"
+    fi
+    if [[ "x" != "x${K8SCTX}" ]]; then
+      printf -- '%s\e[33m[%s]' "${K8SCTX}" "${K8SNS}"
     fi
   fi
 }

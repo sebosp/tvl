@@ -36,19 +36,25 @@ if [[ -d "/home/sre/work" ]]; then
 	if [[ ! -d "/home/sre/work/.ansible" ]]; then
 		echo "Missing host's .ansible directory, creating..."
 		mkdir /home/sre/work/.ansible
-		ln -s /home/sre/work/.ansible /home/sre/.ansible
-		chmod 700 /home/sre/work/.ansible
+#		chmod 700 /home/sre/work/.ansible
 	fi
 	if [[ ! -f "/home/sre/work/.gitconfig" ]]; then
 		echo "Missing host's .gitconfig file, please run: ";
 		echo '$ git config --global user.name "John Doe"'
 		echo '$ git config --global user.email johndoe@example.com"'
 		touch /home/sre/work/.gitconfig
+		git config --global --add alias.lol "log --graph --decorate --pretty=oneline --abbrev-commit --all"
 	fi
+	if [[ ! -d "/home/sre/.m2/repository" ]]; then
+		mkdir -p /home/sre/.m2/repository
+		chown -R sre:sre /home/sre/.m2
+        fi
 	if [[ ! -d "/home/sre/work/.ssh" ]]; then
 		mkdir /home/sre/work/.ssh
 		chmod 700 /home/sre/work/.ssh
 	fi
+	ln -s /home/sre/work/.ansible /home/sre/.ansible
+	ln -s /home/sre/work/.virtualenvs /home/sre/.virtualenvs
 fi
 
 exec /usr/bin/gosu sre /bin/bash
