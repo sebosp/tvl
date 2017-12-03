@@ -1,12 +1,17 @@
 FROM alpine:3.6
 MAINTAINER Seb Osp <kraige@gmail.com>
 ENV L0_REFRESHED_AT 20170414
-ENV KUBECTL_VERSION 1.8.0
+ENV KUBECTL_VERSION 1.8.4
+ENV GOROOT="/usr/lib/go"
+ENV GOBIN="$GOROOT/bin"
+ENV GOPATH="/home/sre/go"
+ENV PATH="$PATH:$GOBIN:$GOPATH/bin"
 COPY files/vim /home/sre/.vim
-RUN apk add --update \
-       ansible bash build-base ca-certificates ctags curl file findutils git grep groff jq less llvm4 man-pages \
+RUN set -ex \
+    && apk add --update \
+       ansible bash build-base ca-certificates ctags curl file findutils git go grep groff jq less llvm4 man-pages \
        mdocml-apropos mtr mysql-client maven ncurses-terminfo nmap-ncat openssh-client openssl perl python \ 
-       python-dev python3 py3-pip ruby ruby-bundler screen strace shadow vim vimdiff zip \
+       python-dev python3 py3-pip ruby ruby-bundler ruby-json screen strace shadow vim vimdiff zip \
     && echo http://dl-4.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories \
     && apk add --update gosu py-boto py-boto3 py-passlib py-mysqldb \
     && curl -sL https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl -o /usr/bin/kubectl\
@@ -25,8 +30,12 @@ RUN apk add --update \
     && git clone --depth 1 https://github.com/chase/vim-ansible-yaml \
     && git clone --depth 1 https://github.com/SirVer/ultisnips \
     && git clone --depth 1 https://github.com/honza/vim-snippets \
+    && git clone --depth 1 https://github.com/Valloric/YouCompleteMe \
+    && cd YouCompleteMe \
+    && git submodule update --init --recursive \
+    && ./install.py \
     && pip3 install --upgrade pip \
-    && pip3 install --upgrade awscli flake8 \
+    && pip3 install --upgrade awscli awsebcli flake8 \
     && curl -SLO https://raw.github.com/petervanderdoes/gitflow-avh/develop/contrib/gitflow-installer.sh \
     && sh gitflow-installer.sh install stable \
     && sed -i 's/readlink -e/readlink -f/g' /usr/local/bin/git-flow \
@@ -43,9 +52,13 @@ COPY files/screen-preexec.sh /home/sre/
 COPY files/git-prompt.sh /home/sre/
 COPY files/k8s-prompt.sh /home/sre/
 COPY files/aws-prompt.sh /home/sre/
+COPY files/ret-prompt.sh /home/sre/
 COPY files/vimrc /home/sre/.vimrc
 RUN apk del build-base python python-dev llvm4 \
+    && apk del build-base cmake python python-dev llvm \
     && rm -rf /var/cache/apk/* \
+    && rm -rf /home/sre/.vim/bundle/YouCompleteMe/third_party/ycmd/clang_includes \
+    && rm -rf /home/sre/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp \
     && rm -rf /var/cache/* \
     && mkdir /var/cache/apk \
     && /usr/sbin/makewhatis -a -T utf8 /usr/share/man \
