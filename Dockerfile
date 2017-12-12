@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.7
 MAINTAINER Seb Osp <kraige@gmail.com>
 ENV L0_REFRESHED_AT 20170414
 ENV KUBECTL_VERSION 1.8.5
