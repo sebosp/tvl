@@ -1,7 +1,7 @@
 FROM alpine:3.7
 MAINTAINER Seb Osp <kraige@gmail.com>
 ENV L0_REFRESHED_AT 20170414
-ENV KUBECTL_VERSION 1.8.4
+ENV KUBECTL_VERSION 1.8.5
 ENV GOROOT="/usr/lib/go"
 ENV GOBIN="$GOROOT/bin"
 ENV GOPATH="/home/sre/go"
@@ -10,12 +10,16 @@ COPY files/vim /home/sre/.vim
 COPY files/vimrc /home/sre/.vimrc
 RUN set -ex \
     && apk add --update \
-       ansible bash build-base ca-certificates cmake ctags curl file findutils git go grep groff jq less llvm4 man-pages \
-       mdocml-apropos mtr mysql-client maven ncurses-terminfo nmap-ncat openssh-client openssl perl python \ 
-       python-dev python3 py3-pip ruby ruby-bundler ruby-json screen strace shadow vim vimdiff zip \
+       ansible bash build-base ca-certificates cmake ctags curl file \
+       findutils git go grep groff jq less llvm4 man-pages mdocml-apropos mtr \
+       mysql-client maven perl-namespace-autoclean ncurses-terminfo nmap-ncat \
+       openssh-client openssl perl perl-moose perl-test-harness-utils \
+       perl-utils python python3 python-dev py-mysqldb ruby ruby-bundler \
+       ruby-json screen strace shadow vim vimdiff zip \
     && echo http://dl-4.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories \
-    && apk add --update gosu py-boto py-boto3 py-passlib py-mysqldb \
-    && curl -sL https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl -o /usr/bin/kubectl\
+    && apk add --update gosu py-passlib \
+    && curl -sL https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl -o /usr/bin/kubectl \
+    && (echo y;echo o conf prerequisites_policy follow;echo o conf commit)|cpan \
     && chmod a+x /usr/bin/kubectl \
     && mkdir /home/sre/.vim/autoload/ \
     && curl -sL -o /home/sre/.vim/autoload/pathogen.vim "https://tpo.pe/pathogen.vim" \
@@ -57,8 +61,9 @@ COPY files/git-prompt.sh /home/sre/
 COPY files/k8s-prompt.sh /home/sre/
 COPY files/aws-prompt.sh /home/sre/
 COPY files/ret-prompt.sh /home/sre/
-RUN apk del build-base python python-dev llvm4 \
-    && apk del build-base cmake python python-dev llvm \
+RUN apk add perl-dev \
+    && cpan install inc::latest Module::Build Perl::Critic YAML YAML::XS \
+    && apk del build-base cmake python python-dev llvm llvm4 \
     && rm -rf /var/cache/apk/* \
     && rm -rf /home/sre/.vim/bundle/YouCompleteMe/third_party/ycmd/clang_includes \
     && rm -rf /home/sre/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp \

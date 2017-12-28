@@ -117,6 +117,7 @@ export GREP_COLOR='1;31'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias li='list_instances -r $AWS_DEFAULT_REGION -H ID,State,T:Name,IP,PrivateIP'
+alias proveall='prove -j9 --state=slow,save -lr t'
 source ~/utils.sh
 # Add a forced cd to home/work, the default mount location, (by defaut the container drops us to / which is usually undesired.)
 # I guess this will have a bad side effect...
