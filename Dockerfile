@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.7
 MAINTAINER Seb Osp <kraige@gmail.com>
 ENV L0_REFRESHED_AT 20170414
 ENV KUBECTL_VERSION 1.8.4
@@ -7,9 +7,10 @@ ENV GOBIN="$GOROOT/bin"
 ENV GOPATH="/home/sre/go"
 ENV PATH="$PATH:$GOBIN:$GOPATH/bin"
 COPY files/vim /home/sre/.vim
+COPY files/vimrc /home/sre/.vimrc
 RUN set -ex \
     && apk add --update \
-       ansible bash build-base ca-certificates ctags curl file findutils git go grep groff jq less llvm4 man-pages \
+       ansible bash build-base ca-certificates cmake ctags curl file findutils git go grep groff jq less llvm4 man-pages \
        mdocml-apropos mtr mysql-client maven ncurses-terminfo nmap-ncat openssh-client openssl perl python \ 
        python-dev python3 py3-pip ruby ruby-bundler ruby-json screen strace shadow vim vimdiff zip \
     && echo http://dl-4.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories \
@@ -17,7 +18,7 @@ RUN set -ex \
     && curl -sL https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl -o /usr/bin/kubectl\
     && chmod a+x /usr/bin/kubectl \
     && mkdir /home/sre/.vim/autoload/ \
-    && curl -o /home/sre/.vim/autoload/pathogen.vim -sL "https://tpo.pe/pathogen.vim" \
+    && curl -sL -o /home/sre/.vim/autoload/pathogen.vim "https://tpo.pe/pathogen.vim" \
     && mkdir /home/sre/.vim/bundle \
     && cd /home/sre/.vim/bundle \
     && git clone --depth 1 https://github.com/bling/vim-airline \
@@ -36,7 +37,7 @@ RUN set -ex \
     && ./install.py \
     && pip3 install --upgrade pip \
     && pip3 install --upgrade awscli awsebcli flake8 \
-    && curl -SLO https://raw.github.com/petervanderdoes/gitflow-avh/develop/contrib/gitflow-installer.sh \
+    && curl -sLO https://raw.github.com/petervanderdoes/gitflow-avh/develop/contrib/gitflow-installer.sh \
     && sh gitflow-installer.sh install stable \
     && sed -i 's/readlink -e/readlink -f/g' /usr/local/bin/git-flow \
     && rm -rf gitflow-installer.sh /usr/local/share/doc/gitflow /usr/share/vim/vim80/doc \
@@ -44,7 +45,10 @@ RUN set -ex \
     && ln -s /home/sre/work/.kube /home/sre/.kube \
     && ln -s /home/sre/work/.aws /home/sre/.aws \
     && ln -s /home/sre/work/.ssh /home/sre/.ssh \
-    && vim -E -c "execute pathogen#infect('~/.vim/bundle/{}')" -c "execute pathogen#helptags()" -c q ; return 0
+    && mkdir /home/sre/.config \
+    && ln -s /home/sre/.vim /home/sre/.config/nvim \
+    && ln -s /home/sre/.vimrc /home/sre/.config/nvim/init.vim \
+    && vim -E -c "execute pathogen#infect('~/.vim/bundle/{}')" -c "execute pathogen#helptags()" -c q || return 0
 COPY files/bashrc /home/sre/.bashrc
 COPY files/screenrc /home/sre/.screenrc
 COPY files/preexec.bash.sh /home/sre/
@@ -53,7 +57,6 @@ COPY files/git-prompt.sh /home/sre/
 COPY files/k8s-prompt.sh /home/sre/
 COPY files/aws-prompt.sh /home/sre/
 COPY files/ret-prompt.sh /home/sre/
-COPY files/vimrc /home/sre/.vimrc
 RUN apk del build-base python python-dev llvm4 \
     && apk del build-base cmake python python-dev llvm \
     && rm -rf /var/cache/apk/* \

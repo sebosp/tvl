@@ -103,7 +103,6 @@ if [[ $TERM =~ "screen" ]]; then
 	source ~/screen-preexec.sh
 fi
 alias R='R --quiet'
-export HOMEBREW_GITHUB_API_TOKEN=3b72390bceed73705b6d1c9c4ef7b50e41d4fae6
 export LANG="en_US"
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/sre/chroot/lib/
 export TERM=xterm-256color
