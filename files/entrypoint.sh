@@ -49,6 +49,9 @@ if [[ -d "/home/sre/work" ]]; then
 		mkdir -p /home/sre/.m2/repository
 		chown -R sre:sre /home/sre/.m2
         fi
+	if [[ -d "/home/sre/.helm" ]]; then
+		chown -R sre:sre /home/sre/.helm
+        fi
 	if [[ ! -d "/home/sre/work/.ssh" ]]; then
 		mkdir /home/sre/work/.ssh
 		chmod 700 /home/sre/work/.ssh
@@ -56,5 +59,6 @@ if [[ -d "/home/sre/work" ]]; then
 	ln -s /home/sre/work/.ansible /home/sre/.ansible
 	ln -s /home/sre/work/.virtualenvs /home/sre/.virtualenvs
 fi
-
+touch /home/sre/.rnd
+chown sre:sre /home/sre/.rnd
 exec /usr/bin/gosu sre /bin/bash

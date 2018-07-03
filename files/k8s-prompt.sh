@@ -9,7 +9,7 @@ __k8s_prompt ()
       export K8S_LAST_PROMPT_CHECK=$(date +'%s')
     fi
     if [[ $(($K8S_PROMT_TTL + $K8S_LAST_PROMPT_CHECK)) < $(date +'%s') ]]; then
-      export K8SCTX=$(kubectl config current-context)
+      export K8SCTX=$(kubectl config current-context 2>/dev/null)
       export K8SNS=$(kubectl config view -o json|jq ".contexts | map(select(.name| contains(\"$K8SCTX\")))[0]|.context.namespace" -r|cut -c-10)
       export K8S_LAST_PROMPT_CHECK=$(date +'%s')
     fi
