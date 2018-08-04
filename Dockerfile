@@ -1,7 +1,7 @@
 FROM alpine:3.8
 MAINTAINER Seb Osp <kraige@gmail.com>
 ENV L0_REFRESHED_AT 20180730
-ENV KUBECTL_VERSION 1.9.0
+ENV KUBECTL_VERSION 1.10.5
 ENV ANSIBLE_VERSION 2.6.2
 ENV GOROOT "/usr/lib/go"
 ENV GOBIN "$GOROOT/bin"
@@ -30,9 +30,8 @@ RUN echo http://dl-4.alpinelinux.org/alpine/edge/main/ >> /etc/apk/repositories 
     && curl -sL https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl -o /usr/bin/kubectl \
     && chmod a+x /usr/bin/kubectl
 COPY files/vim-8.1.0115-r0.apk /var/cache/vim-8.1.0115-r0.apk
-COPY files/vimdiff-8.1.0115-r0.apk /var/cache/vimdiff-8.1.0115-r0.apk
 RUN apk add --allow-untrusted /var/cache/vim-8.1.0115-r0.apk \
-  && apk add --allow-untrusted /var/cache/vimdiff-8.1.0115-r0.apk
+  && apk add vimdiff
 RUN mkdir -p /home/sre/.vim/pack/main/start \
     && cd /home/sre/.vim/pack/main/start \
     && git clone --depth 1 https://github.com/bling/vim-airline \
@@ -49,6 +48,7 @@ RUN mkdir -p /home/sre/.vim/pack/main/start \
     && git clone --depth 1 https://github.com/airblade/vim-gitgutter \
     && git clone --depth 1 https://github.com/tpope/vim-commentary \
     && git clone --depth 1 https://github.com/junegunn/fzf/ \
+    && git clone --depth 1 https://github.com/fatih/vim-go \
     && git clone --depth 1 https://github.com/Valloric/YouCompleteMe \
     && cd YouCompleteMe \
     && git submodule update --init --recursive \
@@ -70,7 +70,6 @@ RUN curl -sLO https://raw.github.com/petervanderdoes/gitflow-avh/develop/contrib
     && /usr/sbin/makewhatis -a -T utf8 /usr/share/man \
     && updatedb
 RUN pip install --upgrade boto boto3 s3transfer configparser passlib requests==$PY_REQUESTS_VERSION \
-    && pip install --upgrade boto boto3 s3transfer configparser passlib requests==$PY_REQUESTS_VERSION \
     && curl -o /tmp/$HELM_FILENAME https://storage.googleapis.com/kubernetes-helm/${HELM_FILENAME} \
     && tar -zxvf /tmp/${HELM_FILENAME} -C /tmp \
     && mv /tmp/linux-amd64/helm /bin/helm \
