@@ -21,6 +21,11 @@ if [[ -d "/home/sre/work" ]]; then
 		mkdir /home/sre/work/.kube
 		chmod 700 /home/sre/work/.kube
 	fi
+	if [[ ! -d "/home/sre/work/.jx" ]]; then
+		echo "Missing host's .jx directory, creating..."
+		mkdir /home/sre/work/.jx
+		chmod 700 /home/sre/work/.jx
+	fi
 	if [[ ! -d "/home/sre/work/.minikube" ]]; then
 		echo "Missing host's .minikube directory, creating..."
 		mkdir /home/sre/work/.minikube
@@ -49,12 +54,23 @@ if [[ -d "/home/sre/work" ]]; then
 		mkdir -p /home/sre/.m2/repository
 		chown -R sre:sre /home/sre/.m2
         fi
+	if [[ -d "/home/sre/.helm" ]]; then
+		chown -R sre:sre /home/sre/.helm
+        fi
 	if [[ ! -d "/home/sre/work/.ssh" ]]; then
 		mkdir /home/sre/work/.ssh
 		chmod 700 /home/sre/work/.ssh
 	fi
+	if [[ ! -d "/home/sre/work/.cache" ]]; then # For Go, might not be a good idea tho... Let's see.
+		mkdir /home/sre/work/.cache
+		chmod 700 /home/sre/work/.cache
+	fi
 	ln -s /home/sre/work/.ansible /home/sre/.ansible
 	ln -s /home/sre/work/.virtualenvs /home/sre/.virtualenvs
+	ln -s /home/sre/work/.jx /home/sre/.jx
+	ln -s /home/sre/work/.helm /home/sre/.helm
+	ln -s /home/sre/work/.cache /home/sre/.cache
 fi
-
+touch /home/sre/.rnd
+chown sre:sre /home/sre/.rnd
 exec /usr/bin/gosu sre /bin/bash
