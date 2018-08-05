@@ -105,8 +105,7 @@ let g:syntastic_check_on_wq = 0
 set lcs=tab:>-,eol:$
 set noerrorbells visualbell t_vb=
 set list
-autocmd FileType * set ts=8
-autocmd FileType puppet set ts=2 sw=2 et
+autocmd FileType * set ts=2 sw=2 et
 highlight currentWordHi term=bold ctermbg=236 guibg=green
 au CursorHold * exe 'match currentWordHi /\V\<'.substitute(escape(expand('<cword>'),'\'),"/","\\\\/","g").'\>/'
 au CursorHoldI * exe 'match currentWordHi /\V\<'.substitute(escape(expand('<cword>'),'\'),"/","\\\\/","g").'\>/'
@@ -146,3 +145,7 @@ autocmd FileType rust nmap <leader>tC :RunBg cargo test -- --nocapture<CR>
 autocmd FileType rust nmap <leader>b :!cargo build<CR>
 autocmd FileType rust set shiftwidth=4
 autocmd FileType rust let g:syntastic_rust_checkers = ['cargo']
+set backspace=2  " make backspace work like most other programs
+set nofoldenable " disable folding
+let g:UltiSnipsExpandTrigger = "<nop>"
+inoremap <expr> <CR> pumvisible() ? "<C-R>=UltiSnips#ExpandSnippetOrJump()<CR>" : "\<CR>"
