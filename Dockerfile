@@ -104,5 +104,7 @@ COPY files/ret-prompt.sh /home/sre/
 COPY files/utils.sh /home/sre/utils.sh
 COPY files/list_instances /usr/bin/list_instances
 COPY files/entrypoint.sh /usr/local/bin/entrypoint.sh
+# Quick dirty fix for vim's :GoInstallBinaries
+RUN grep -A25 '^let s:packages = {' plugin/go.vim|grep -e github.com -e golang.org|grep '^      \\ '|cut -d"'" -f4|while read repoLocation; do go get $repoLocation;done
 CMD ["/bin/bash"]
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
