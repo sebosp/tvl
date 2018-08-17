@@ -39,16 +39,19 @@ RUN mkdir -p /home/sre/.vim/pack/main/start \
     && git clone --depth 1 https://github.com/tpope/vim-fugitive \
     && git clone --depth 1 https://github.com/pangloss/vim-javascript \
     && git clone --depth 1 https://github.com/elzr/vim-json \
-    && git clone --depth 1 https://github.com/sebosp/vim-snippets-terraform \
     && git clone --depth 1 https://github.com/plasticboy/vim-markdown \
     && git clone --depth 1 https://github.com/scrooloose/syntastic \
     && git clone --depth 1 https://github.com/chase/vim-ansible-yaml \
     && git clone --depth 1 https://github.com/SirVer/ultisnips \
     && git clone --depth 1 https://github.com/honza/vim-snippets \
+    && git clone --depth 1 https://github.com/sebosp/vim-snippets-terraform \
+    && mv vim-snippets-terraform/terraform.snippets vim-snippets/UltiSnips/ \
     && git clone --depth 1 https://github.com/airblade/vim-gitgutter \
     && git clone --depth 1 https://github.com/tpope/vim-commentary \
     && git clone --depth 1 https://github.com/junegunn/fzf/ \
     && git clone --depth 1 https://github.com/fatih/vim-go \
+    && grep -A25 '^let s:packages = {' vim-go/plugin/go.vim|grep -e github.com -e golang.org|grep '^      \\ '|cut -d"'" -f4|while read repoLocation; do go get -u $repoLocation;done \
+    && git clone --depth 1 https://github.com/AndrewRadev/splitjoin.vim \
     && git clone --depth 1 https://github.com/Valloric/YouCompleteMe \
     && cd YouCompleteMe \
     && git submodule update --init --recursive \
@@ -88,8 +91,8 @@ RUN pip install --upgrade boto boto3 s3transfer configparser passlib requests==$
 # curl -sLO https://github.com/jenkins-x/jx/releases/download/v${JX_VERSION}/jx-linux-amd64.tar.gz \
 # tar -vxzf jx-linux-amd64.tar.gz \
 # mv jx /usr/local/bin
-COPY files/vim /home/sre/.vim
 COPY files/vimrc /home/sre/.vimrc
+COPY files/vim /home/sre/.vim
 COPY files/bashrc /home/sre/.bashrc
 COPY files/screenrc /home/sre/.screenrc
 COPY files/preexec.bash.sh /home/sre/

@@ -147,4 +147,5 @@ autocmd FileType rust set shiftwidth=4
 autocmd FileType rust let g:syntastic_rust_checkers = ['cargo']
 set backspace=2  " make backspace work like most other programs
 set nofoldenable " disable folding
-
+let g:UltiSnipsExpandTrigger = "<nop>"
+inoremap <expr> <CR> pumvisible() ? "<C-R>=UltiSnips#ExpandSnippetOrJump()<CR>" : "\<CR>"
