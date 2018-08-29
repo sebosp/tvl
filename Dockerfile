@@ -30,9 +30,10 @@ RUN echo http://dl-4.alpinelinux.org/alpine/edge/main/ >> /etc/apk/repositories 
     && curl -sL https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl -o /usr/bin/kubectl \
     && chmod a+x /usr/bin/kubectl
 COPY files/vim-8.1.0115-r0.apk /var/cache/vim-8.1.0115-r0.apk
-RUN apk add --allow-untrusted /var/cache/vim-8.1.0115-r0.apk \
-  && apk add vimdiff
-RUN mkdir -p /home/sre/.vim/pack/main/start \
+COPY files/jsonnet-0.11.2-r0.apk /var/cache/jsonnet-0.11.2-r0.apk
+RUN apk add --allow-untrusted /var/cache/vim-8.1.0115-r0.apk /var/cache/jsonnet-0.11.2-r0.apk \
+    && apk add vimdiff \
+    && mkdir -p /home/sre/.vim/pack/main/start \
     && cd /home/sre/.vim/pack/main/start \
     && git clone --depth 1 https://github.com/bling/vim-airline \
     && git clone --depth 1 https://github.com/ekalinin/Dockerfile.vim \
@@ -47,6 +48,8 @@ RUN mkdir -p /home/sre/.vim/pack/main/start \
     && git clone --depth 1 https://github.com/sebosp/vim-snippets-terraform \
     && mv vim-snippets-terraform/terraform.snippets vim-snippets/UltiSnips/ \
     && git clone --depth 1 https://github.com/airblade/vim-gitgutter \
+    && git clone --depth 1 https://github.com/google/vim-jsonnet \
+    && git clone --depth 1 https://github.com/martinda/Jenkinsfile-vim-syntax \
     && git clone --depth 1 https://github.com/tpope/vim-commentary \
     && git clone --depth 1 https://github.com/junegunn/fzf/ \
     && git clone --depth 1 https://github.com/fatih/vim-go \
@@ -64,7 +67,6 @@ RUN curl -sLO https://raw.github.com/petervanderdoes/gitflow-avh/develop/contrib
     && ln -s /home/sre/work/.kube /home/sre/.kube \
     && ln -s /home/sre/work/.aws /home/sre/.aws \
     && ln -s /home/sre/work/.ssh /home/sre/.ssh \
-    && apk del build-base cmake llvm llvm4 \
     && rm -rf /var/cache/apk/* \
     && rm -rf /home/sre/.vim/pack/start/YouCompleteMe/third_party/ycmd/clang_includes \
     && rm -rf /home/sre/.vim/pack/start/YouCompleteMe/third_party/ycmd/cpp \
