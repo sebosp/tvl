@@ -111,7 +111,6 @@ au CursorHold * exe 'match currentWordHi /\V\<'.substitute(escape(expand('<cword
 au CursorHoldI * exe 'match currentWordHi /\V\<'.substitute(escape(expand('<cword>'),'\'),"/","\\\\/","g").'\>/'
 au BufRead,BufNewFile *.tf setlocal filetype=terraform
 au BufRead,BufNewFile *.tfvars setlocal filetype=terraform
-au BufRead,BufNewFile *.tfstate setlocal filetype=javascript
 setl updatetime=200
 highlight rightMargin ctermbg=233
 2match rightMargin /.\%>80v/    
@@ -149,3 +148,6 @@ set backspace=2  " make backspace work like most other programs
 set nofoldenable " disable folding
 let g:UltiSnipsExpandTrigger = "<nop>"
 inoremap <expr> <CR> pumvisible() ? "<C-R>=UltiSnips#ExpandSnippetOrJump()<CR>" : "\<CR>"
+let g:gitgutter_realtime = 0
+let g:gitgutter_eager = 0
+autocmd FileType Makefile set noet
