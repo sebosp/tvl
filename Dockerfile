@@ -74,7 +74,9 @@ RUN curl -sLO https://raw.github.com/petervanderdoes/gitflow-avh/develop/contrib
     && mkdir /var/cache/apk \
     && /usr/sbin/makewhatis -a -T utf8 /usr/share/man \
     && updatedb
-RUN pip install --upgrade boto boto3 s3transfer configparser passlib requests==$PY_REQUESTS_VERSION \
+RUN apk add postgresql-libs \
+    && apk add --virtual .build-deps gcc musl-dev postgresql-dev \
+    && pip install --upgrade boto boto3 s3transfer psycopg2 configparser passlib requests==$PY_REQUESTS_VERSION \
     && curl -o /tmp/$HELM_FILENAME https://storage.googleapis.com/kubernetes-helm/${HELM_FILENAME} \
     && tar -zxvf /tmp/${HELM_FILENAME} -C /tmp \
     && mv /tmp/linux-amd64/helm /bin/helm \
@@ -86,7 +88,8 @@ RUN pip install --upgrade boto boto3 s3transfer configparser passlib requests==$
     && rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
     && curl -sLO https://github.com/kubernetes/kops/releases/download/${KOPS_VERSION}/kops-linux-amd64 \
     && mv kops-linux-amd64 /usr/local/bin/kops \
-    && chmod a+x /usr/local/bin/kops
+    && chmod a+x /usr/local/bin/kops \
+    && apk --purge del .build-deps
 # JX should be installed outside as it changes so often and needs to be updated.
 # mkdir -p /var/tmp/jx \
 # cd /var/tmp/jx \
@@ -107,6 +110,5 @@ COPY files/utils.sh /home/sre/utils.sh
 COPY files/list_instances /usr/bin/list_instances
 COPY files/entrypoint.sh /usr/local/bin/entrypoint.sh
 # Quick dirty fix for vim's :GoInstallBinaries
-RUN grep -A25 '^let s:packages = {' plugin/go.vim|grep -e github.com -e golang.org|grep '^      \\ '|cut -d"'" -f4|while read repoLocation; do go get $repoLocation;done
 CMD ["/bin/bash"]
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
