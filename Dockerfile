@@ -18,14 +18,15 @@ ENV PY_REQUESTS_VERSION 2.19.1
 RUN set -ex \
     && apk add --update \
        bash build-base bind-tools ca-certificates cmake ctags curl file \
-       findutils git go grep groff jq less llvm4 man-pages mdocml-apropos mtr \
-       mysql-client ncurses-terminfo nmap-ncat openssh-client openssl perl \
-       perl-utils postgresql-client python py2-cffi python2-dev py2-openssl \
-       py2-pip py-mysqldb ruby ruby-bundler ruby-json screen strace shadow tar zip
+       findutils git go grep groff jq less llvm4 libffi-dev man-pages \
+       mdocml-apropos mtr mysql-client ncurses-terminfo nmap-ncat \
+       openssh-client openssl perl perl-utils postgresql-client python py2-cffi \
+       python2-dev py2-openssl py2-pip py-mysqldb ruby ruby-bundler ruby-json \
+       screen strace shadow tar zip
 RUN echo http://dl-4.alpinelinux.org/alpine/edge/main/ >> /etc/apk/repositories \
     && echo http://dl-4.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories \
     && pip install --upgrade pip \
-    && pip install awscli flake8 ansible==${ANSIBLE_VERSION} \
+    && pip install kubernetes awscli flake8 ansible==${ANSIBLE_VERSION} \
     && apk add --update gosu cargo rust \
     && curl -sL https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl -o /usr/bin/kubectl \
     && chmod a+x /usr/bin/kubectl
