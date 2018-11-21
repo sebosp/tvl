@@ -110,6 +110,7 @@ COPY files/ret-prompt.sh /home/sre/
 COPY files/utils.sh /home/sre/utils.sh
 COPY files/list_instances /usr/bin/list_instances
 COPY files/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN pip install gitpython kubernetes==8.0.0 openshift
 # Quick dirty fix for vim's :GoInstallBinaries
 CMD ["/bin/bash"]
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
