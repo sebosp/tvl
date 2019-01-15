@@ -1,22 +1,19 @@
 FROM alpine:3.8
-MAINTAINER Seb Osp <kraige@gmail.com>
+LABEL MAINTAINER Seb Osp <kraige@gmail.com>
 ENV L0_REFRESHED_AT 20180730
-ENV KUBECTL_VERSION 1.10.5
-ENV ANSIBLE_VERSION 2.6.2
+ENV KUBECTL_VERSION 1.13.12
 ENV GOROOT "/usr/lib/go"
 ENV GOBIN "$GOROOT/bin"
 ENV GOPATH "/home/sre/go"
 ENV PATH "$PATH:$GOBIN:$GOPATH/bin"
 ENV RUSTUP_TOOLCHAIN stable-x86_64-unknown-linux-musl
-ENV HELM_VERSION v2.10.0-rc.1
+ENV HELM_VERSION v2.12.2
 ENV HELM_FILENAME helm-${HELM_VERSION}-linux-amd64.tar.gz
 ENV JAVA_VERSION 8.171.11-r0
-ENV PATH "$PATH:/home/sre/.jx/bin"
-ENV TERRAFORM_VERSION 0.11.7
-ENV KOPS_VERSION 1.9.1
-ENV PY_REQUESTS_VERSION 2.19.1
+ENV TERRAFORM_VERSION 0.11.11
+ENV KOPS_VERSION 1.11.0
 RUN set -ex \
-    && apk add --update \
+    && apk add --no-cache --update \
        bash build-base bind-tools ca-certificates cmake ctags curl file \
        findutils git go grep groff jq less llvm4 libffi-dev man-pages \
        mdocml-apropos mtr mysql-client ncurses-terminfo nmap-ncat \
@@ -26,7 +23,7 @@ RUN set -ex \
 RUN echo http://dl-4.alpinelinux.org/alpine/edge/main/ >> /etc/apk/repositories \
     && echo http://dl-4.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories \
     && pip install --upgrade pip \
-    && pip install kubernetes awscli flake8 ansible==${ANSIBLE_VERSION} \
+    && pip install kubernetes awscli flake8 \
     && apk add --update gosu cargo rust \
     && curl -sL https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl -o /usr/bin/kubectl \
     && chmod a+x /usr/bin/kubectl
@@ -35,6 +32,7 @@ COPY files/jsonnet-0.11.2-r0.apk /var/cache/jsonnet-0.11.2-r0.apk
 RUN apk add --allow-untrusted /var/cache/vim-8.1.0115-r0.apk /var/cache/jsonnet-0.11.2-r0.apk \
     && apk add vimdiff \
     && mkdir -p /home/sre/.vim/pack/main/start \
+RUN mkdir -p /home/sre/.vim/pack/main/start \
     && cd /home/sre/.vim/pack/main/start \
     && git clone --depth 1 https://github.com/bling/vim-airline \
     && git clone --depth 1 https://github.com/ekalinin/Dockerfile.vim \
@@ -77,7 +75,7 @@ RUN curl -sLO https://raw.github.com/petervanderdoes/gitflow-avh/develop/contrib
     && updatedb
 RUN apk add postgresql-libs \
     && apk add --virtual .build-deps gcc musl-dev postgresql-dev \
-    && pip install --upgrade boto boto3 s3transfer psycopg2 configparser passlib requests==$PY_REQUESTS_VERSION \
+    && pip install --upgrade boto boto3 s3transfer psycopg2 configparser passlib \
     && curl -o /tmp/$HELM_FILENAME https://storage.googleapis.com/kubernetes-helm/${HELM_FILENAME} \
     && tar -zxvf /tmp/${HELM_FILENAME} -C /tmp \
     && mv /tmp/linux-amd64/helm /bin/helm \
