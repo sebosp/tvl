@@ -1,5 +1,5 @@
 [![Docker Repository on Quay](https://quay.io/repository/sebosp/tvl/status?token=84ddb0a8-9059-4c43-9125-6d3949ad3e7f "Docker Repository on Quay")](https://quay.io/repository/sebosp/tvl)
-# tvl 2.0.3
+# tvl 2.0.8
 [![tvl asciicast](https://asciinema.org/a/119550.png)](https://asciinema.org/a/119550)
 
 Docker setup with my common work tools for Infrastructure As Code, Configuration Management, vIM
@@ -50,11 +50,6 @@ $ docker run --rm --cap-add=SYS_PTRACE -v $HOME/:/home/sre/work/ -e ENV=proj1_qa
 
 ## Workarounds
 if strace is needed for a debugging something, you can use `--cap-add=SYS_PTRACE` as part of the docker run flags.
-
-## Current issues
-- git diff opens up LESS even when the output is less than a page.
-  When setting -F less won't open at all (regardless of output length).
-  I suspect this could somethig to do with TERM capabilities,size,etc...
 
 ## TODO
 - Add gcloud
