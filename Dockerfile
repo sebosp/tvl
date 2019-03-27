@@ -9,7 +9,7 @@ ENV PATH "$PATH:$GOBIN:$GOPATH/bin"
 ENV RUSTUP_TOOLCHAIN stable-x86_64-unknown-linux-musl
 ENV HELM_VERSION v2.12.2
 ENV HELM_FILENAME helm-${HELM_VERSION}-linux-amd64.tar.gz
-ENV JAVA_VERSION 8.171.11-r0
+ENV JAVA_VERSION 8.191.12-r0
 ENV TERRAFORM_VERSION 0.11.11
 ENV KOPS_VERSION 1.11.0
 RUN set -ex \
@@ -30,7 +30,7 @@ RUN echo http://dl-4.alpinelinux.org/alpine/edge/main/ >> /etc/apk/repositories 
 COPY files/vim-8.1.0115-r0.apk /var/cache/vim-8.1.0115-r0.apk
 COPY files/jsonnet-0.11.2-r0.apk /var/cache/jsonnet-0.11.2-r0.apk
 RUN apk add --allow-untrusted /var/cache/vim-8.1.0115-r0.apk /var/cache/jsonnet-0.11.2-r0.apk \
-    && apk add vimdiff \
+    && apk add vimdiff neovim \
     && mkdir -p /home/sre/.vim/pack/main/start \
 RUN mkdir -p /home/sre/.vim/pack/main/start \
     && cd /home/sre/.vim/pack/main/start \
