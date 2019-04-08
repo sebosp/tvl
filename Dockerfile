@@ -1,17 +1,17 @@
 FROM alpine:3.8
 LABEL MAINTAINER Seb Osp <kraige@gmail.com>
-ENV L0_REFRESHED_AT 20180730
+ENV L0_REFRESHED_AT 20190408
 ENV KUBECTL_VERSION 1.13.12
 ENV GOROOT "/usr/lib/go"
 ENV GOBIN "$GOROOT/bin"
 ENV GOPATH "/home/sre/go"
 ENV PATH "$PATH:$GOBIN:$GOPATH/bin"
 ENV RUSTUP_TOOLCHAIN stable-x86_64-unknown-linux-musl
-ENV HELM_VERSION v2.12.2
+ENV HELM_VERSION v2.13.1
 ENV HELM_FILENAME helm-${HELM_VERSION}-linux-amd64.tar.gz
-ENV JAVA_VERSION 8.191.12-r0
-ENV TERRAFORM_VERSION 0.11.11
-ENV KOPS_VERSION 1.11.0
+ENV JAVA_VERSION 8.201.08-r1
+ENV TERRAFORM_VERSION 0.11.13
+ENV KOPS_VERSION 1.11.1
 RUN set -ex \
     && apk add --no-cache --update \
        bash build-base bind-tools ca-certificates cmake ctags curl file \
@@ -27,37 +27,54 @@ RUN echo http://dl-4.alpinelinux.org/alpine/edge/main/ >> /etc/apk/repositories 
     && apk add --update gosu cargo rust \
     && curl -sL https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl -o /usr/bin/kubectl \
     && chmod a+x /usr/bin/kubectl
-COPY files/vim-8.1.0115-r0.apk /var/cache/vim-8.1.0115-r0.apk
-COPY files/jsonnet-0.11.2-r0.apk /var/cache/jsonnet-0.11.2-r0.apk
-RUN apk add --allow-untrusted /var/cache/vim-8.1.0115-r0.apk /var/cache/jsonnet-0.11.2-r0.apk \
-    && apk add vimdiff neovim \
-    && mkdir -p /home/sre/.vim/pack/main/start \
-RUN mkdir -p /home/sre/.vim/pack/main/start \
-    && cd /home/sre/.vim/pack/main/start \
-    && git clone --depth 1 https://github.com/bling/vim-airline \
-    && git clone --depth 1 https://github.com/ekalinin/Dockerfile.vim \
+RUN apk add neovim \
+    && mkdir -p /home/sre/.fzf/ \
+    && git clone --depth 1 https://github.com/junegunn/fzf /home/sre/.fzf/ \
+    && cd -p /home/sre/.fzf/ \
+    && ./install --all \
+    && mkdir -p /home/sre/.local/share/nvim/site/pack/main/start \
+    && cd /home/sre/.local/share/nvim/site/pack/main/start \
+    && git clone --depth 1 https://github.com/ciaranm/securemodelines \
+    && git clone --depth 1 https://github.com/vim-scripts/localvimrc \
+    && git clone --depth 1 https://github.com/justinmk/vim-sneak \
+    && git clone --depth 1 https://github.com/itchyny/lightline.vim \
+    && git clone --depth 1 https://github.com/w0rp/ale \
+    && git clone --depth 1 https://github.com/machakann/vim-highlightedyank \
+    && git clone --depth 1 https://github.com/andymass/vim-matchup \
+    && git clone --depth 1 https://github.com/airblade/vim-rooter \
+    && git clone --depth 1 https://github.com/airblade/vim-gitgutter \
+    && git clone --depth 1 https://github.com/junegunn/fzf.vim \
+    && git clone --depth 1 https://github.com/autozimu/LanguageClient-neovim --single-branch --branch next \
+    && git clone --depth 1 https://github.com/ncm2/ncm2 \
+    && git clone --depth 1 https://github.com/roxma/nvim-yarp \
+    && git clone --depth 1 https://github.com/ncm2/ncm2-bufword \
+    && git clone --depth 1 https://github.com/ncm2/ncm2-tmux \
+    && git clone --depth 1 https://github.com/ncm2/ncm2-path \
+    && git clone --depth 1 https://github.com/cespare/vim-toml \
+    && git clone --depth 1 https://github.com/rust-lang/rust.vim \
+    && git clone --depth 1 https://github.com/fatih/vim-go \
+    && git clone --depth 1 https://github.com/dag/vim-fish \
+    && git clone --depth 1 https://github.com/godlygeek/tabular \
+    && git clone --depth 1 https://github.com/plasticboy/vim-markdown \
+    && git clone --depth 1 https://github.com/tikhomirov/vim-glsl \
     && git clone --depth 1 https://github.com/tpope/vim-fugitive \
+    && git clone --depth 1 https://github.com/maximbaz/lightline-ale \
+    && git clone --depth 1 https://github.com/lepture/vim-jinja \
+    && git clone --depth 1 https://github.com/ekalinin/Dockerfile.vim \
     && git clone --depth 1 https://github.com/pangloss/vim-javascript \
     && git clone --depth 1 https://github.com/elzr/vim-json \
     && git clone --depth 1 https://github.com/plasticboy/vim-markdown \
-    && git clone --depth 1 https://github.com/scrooloose/syntastic \
     && git clone --depth 1 https://github.com/chase/vim-ansible-yaml \
     && git clone --depth 1 https://github.com/SirVer/ultisnips \
     && git clone --depth 1 https://github.com/honza/vim-snippets \
     && git clone --depth 1 https://github.com/sebosp/vim-snippets-terraform \
     && mv vim-snippets-terraform/terraform.snippets vim-snippets/UltiSnips/ \
-    && git clone --depth 1 https://github.com/airblade/vim-gitgutter \
     && git clone --depth 1 https://github.com/google/vim-jsonnet \
     && git clone --depth 1 https://github.com/martinda/Jenkinsfile-vim-syntax \
     && git clone --depth 1 https://github.com/tpope/vim-commentary \
-    && git clone --depth 1 https://github.com/junegunn/fzf/ \
-    && git clone --depth 1 https://github.com/fatih/vim-go \
-    && grep -A25 '^let s:packages = {' vim-go/plugin/go.vim|grep -e github.com -e golang.org|grep '^      \\ '|cut -d"'" -f4|while read repoLocation; do go get -u $repoLocation;done \
     && git clone --depth 1 https://github.com/AndrewRadev/splitjoin.vim \
-    && git clone --depth 1 https://github.com/Valloric/YouCompleteMe \
-    && cd YouCompleteMe \
-    && git submodule update --init --recursive \
-    && ./install.py --rust-completer --go-completer
+    && cd LanguageClient-neovim \
+    && bash install.sh
 RUN curl -sLO https://raw.github.com/petervanderdoes/gitflow-avh/develop/contrib/gitflow-installer.sh \
     && sh gitflow-installer.sh install stable \
     && sed -i 's/readlink -e/readlink -f/g' /usr/local/bin/git-flow \
@@ -89,14 +106,7 @@ RUN apk add postgresql-libs \
     && mv kops-linux-amd64 /usr/local/bin/kops \
     && chmod a+x /usr/local/bin/kops \
     && apk --purge del .build-deps
-# JX should be installed outside as it changes so often and needs to be updated.
-# mkdir -p /var/tmp/jx \
-# cd /var/tmp/jx \
-# curl -sLO https://github.com/jenkins-x/jx/releases/download/v${JX_VERSION}/jx-linux-amd64.tar.gz \
-# tar -vxzf jx-linux-amd64.tar.gz \
-# mv jx /usr/local/bin
 COPY files/vimrc /home/sre/.vimrc
-COPY files/vim /home/sre/.vim
 COPY files/bashrc /home/sre/.bashrc
 COPY files/screenrc /home/sre/.screenrc
 COPY files/preexec.bash.sh /home/sre/
@@ -108,7 +118,5 @@ COPY files/ret-prompt.sh /home/sre/
 COPY files/utils.sh /home/sre/utils.sh
 COPY files/list_instances /usr/bin/list_instances
 COPY files/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN pip install gitpython kubernetes==8.0.0 openshift
-# Quick dirty fix for vim's :GoInstallBinaries
 CMD ["/bin/bash"]
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
