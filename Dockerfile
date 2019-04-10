@@ -15,7 +15,7 @@ ENV KOPS_VERSION 1.11.1
 RUN set -ex \
     && apk add --no-cache --update \
        bash build-base bind-tools ca-certificates cmake ctags curl file \
-       findutils git go grep groff jq less llvm4 libffi-dev man-pages \
+       findutils git go grep groff jq less libffi-dev man-pages \
        mdocml-apropos mtr mysql-client ncurses-terminfo nmap-ncat \
        openssh-client openssl perl perl-utils postgresql-client python py2-cffi \
        python2-dev py2-openssl py2-pip py-mysqldb ruby ruby-bundler ruby-json \
@@ -30,7 +30,7 @@ RUN echo http://dl-4.alpinelinux.org/alpine/edge/main/ >> /etc/apk/repositories 
 RUN apk add neovim \
     && mkdir -p /home/sre/.fzf/ \
     && git clone --depth 1 https://github.com/junegunn/fzf /home/sre/.fzf/ \
-    && cd -p /home/sre/.fzf/ \
+    && cd /home/sre/.fzf/ \
     && ./install --all \
     && mkdir -p /home/sre/.local/share/nvim/site/pack/main/start \
     && cd /home/sre/.local/share/nvim/site/pack/main/start \
@@ -63,7 +63,6 @@ RUN apk add neovim \
     && git clone --depth 1 https://github.com/ekalinin/Dockerfile.vim \
     && git clone --depth 1 https://github.com/pangloss/vim-javascript \
     && git clone --depth 1 https://github.com/elzr/vim-json \
-    && git clone --depth 1 https://github.com/plasticboy/vim-markdown \
     && git clone --depth 1 https://github.com/chase/vim-ansible-yaml \
     && git clone --depth 1 https://github.com/SirVer/ultisnips \
     && git clone --depth 1 https://github.com/honza/vim-snippets \
