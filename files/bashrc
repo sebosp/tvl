@@ -157,8 +157,15 @@ source ~/utils.sh
 # Add a forced cd to home/work, the default mount location, (by defaut the container drops us to / which is usually undesired.)
 # I guess this will have a bad side effect...
 if [[ "NONE" != "$TARGET_ENV" ]]; then
-	cd /home/sre/work/git/syseng
+	cd /home/sre/work/git/
 else
 	cd /home/sre/work
 fi
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/seb/google-cloud-sdk/path.bash.inc' ]; then . '/home/seb/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/seb/google-cloud-sdk/completion.bash.inc' ]; then . '/home/seb/google-cloud-sdk/completion.bash.inc'; fi
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
