@@ -14,7 +14,7 @@ ENV TERRAFORM_VERSION 0.11.13
 ENV KOPS_VERSION 1.11.1
 RUN set -ex \
     && apk add --no-cache --update \
-       bash build-base bind-tools ca-certificates cmake ctags curl file \
+       fish build-base bind-tools ca-certificates cmake ctags curl file \
        findutils git go grep groff jq less libffi-dev man-pages \
        mdocml-apropos mtr mysql-client ncurses-terminfo nmap-ncat \
        openssh-client openssl perl perl-utils postgresql-client python py2-cffi \
