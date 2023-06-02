@@ -15,7 +15,7 @@ RUN set -ex \
     && echo http://dl-4.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories \
     && pip install --upgrade pip \
     && pip install kubernetes awscli flake8 ansible \
-    && apk add --update cargo rust \
+    && apk add --update cargo rust gosu \
     && curl -sL https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl -o /usr/bin/kubectl \
     && chmod a+x /usr/bin/kubectl \
     && apk add vim neovim \
