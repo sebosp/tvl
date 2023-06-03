@@ -71,8 +71,6 @@ COPY files/init.vim /home/sre/.config/nvim/init.vim
 COPY files/vim /home/sre/.vim
 COPY files/bashrc /home/sre/.bashrc
 COPY files/screenrc /home/sre/.screenrc
-COPY files/preexec.bash.sh /home/sre/
-COPY files/screen-preexec.sh /home/sre/
 COPY files/git-prompt.sh /home/sre/
 COPY files/k8s-prompt.sh /home/sre/
 COPY files/aws-prompt.sh /home/sre/

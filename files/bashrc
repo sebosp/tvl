@@ -5,8 +5,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-#COREPS1='"\A \[\e[36m\]\u\[\e[0;31m\]@\h\[\e[0;31m\]\[\e[m\]:[\[\e[2m\]\w\[\e[0m\]]"'
-export COREPS1='"\A \[\e[36m\]\$(__k8s_prompt $?)\[\e[0;31m\]\$(__prompt_command)\$(__aws_prompt)\[\e[0;31m\]\[\e[m\]:[\[\e[1;30m\]\w\e[m ]"'
 export VISUAL=vi
 export EDITOR=vi
 export HISTSIZE=10000
@@ -14,150 +12,23 @@ export HISTFILESIZE=50000
 shopt -s histappend
 export HISTCONTROL=ignoreboth:erasedups
 export HISTFILE=$HOME/work/.dock_bash_hist
-source ~/git-prompt.sh
-export AWS_PS1_SHOW=1
-export K8S_PS1_SHOW=0 # Disable the prompt with this var.
-export K8S_PROMT_TTL=15
-export K8S_LAST_PROMPT_CHECK=$(($(date +'%s') - $K8S_PROMT_TTL - 1))
-export K8SCTX="unset"
-export K8SNS="unset"
-
-export RET_PS1_SHOW=1
-export K8S_PS1_SHOW=1
-source ~/aws-prompt.sh
-source ~/ret-prompt.sh
-source ~/k8s-prompt.sh
-
-ssha () {
-	if [[ "1" == "$#" ]] ;then
-		ssh -i ~/.ssh/ansible.rsa ansible@$1
-	elif [[ "0" == "$#" ]] ;then
-		>&2 echo "Missing host argument"
-	else
-		targetHost=$1
-		shift
-		ssh -i ~/.ssh/ansible.rsa $@ ansible@$targetHost
-	fi
-}
-
-sshb () {
-	if [[ "1" == "$#" ]] ;then
-		ssh -i ~/.ssh/aws.rsa ec2-user@$1
-	elif [[ "0" == "$#" ]] ;then
-		>&2 echo "Missing host argument"
-	else
-		targetHost=$1
-		shift
-		ssh -i ~/.ssh/ansible.rsa $@ ansible@$targetHost
-		>&2 echo "Missing host argument"
-	fi
-}
-
-sshc () {
-	# kops/CoreOS
-	if [[ "1" == "$#" ]] ;then
-		ssh -i ~/.ssh/aws.rsa admin@$1
-	else
-		>&2 echo "Missing host argument"
-	fi
-}
-
-sshia () {
-	if [[ "0" == "$#" ]] ;then
-		>&2 echo "Usage: sshia {host} [extra params]"
-	fi
-	instanceMatch=$(list_instances -r $AWS_DEFAULT_REGION -H ID,State,T:Name,IP,PrivateIP|grep $1|head -1);
-	echo $instanceMatch
-	targetHost=$(echo $instanceMatch |cut -d'|' -f5|cut -d' ' -f2)
-	shift
-	ssh -i ~/.ssh/aws.rsa $@ ansible@$targetHost
-}
-
-ssho () {
-	if [[ "1" == "$#" ]] ;then
-		ssh -i ~/.ssh/omni.rsa ec2-user@$1
-	else
-		>&2 echo "Missing host argument"
-	fi
-}
-
-export POSPS1=' "\\\$ "'
-if [[ -z "$TARGET_ENV" ]]; then
-	TARGET_ENV=NONE
-else
-	printf '\e[36m--------------------- You are working on \e[31m'${TARGET_ENV}'\e[36m ------------------------------\e[m\n'
-	printf '\033k'$TARGET_ENV'\033\\'
-	AWS_DEFAULT_PROFILE=${TARGET_ENV}
-	if [[ -e "/home/sre/work/envs/${TARGET_ENV}" ]]; then
-           source /home/sre/work/envs/${TARGET_ENV}
-        else
-           >&2 echo "Environment configuration file ~/env/${TARGET_ENV} does not exist"
-        fi
-fi
-export PREPS1='__git_ps1 '
-export POSPS1=' "\\\$ "'
-export GIT_PS1_SHOWDIRTYSTATE=0
-export GIT_PS1_SHOWSTASHSTATE=0
-export GIT_PS1_SHOWUNTRACKEDFILES=
-export GIT_PS1_SHOWCOLORHINTS=1
-export GIT_PS1_DESCRIBE_STYLE="branch"
-export GIT_PS1_SHOWUPSTREAM="auto git"
-#export PS1="${PREPS1}${COREPS1}${POSPS1}"
-export PROMPT_COMMAND="${PREPS1}${COREPS1}${POSPS1}"
-no_git_prompt ()
-{
-	export PREPS1=' '
-	export PS1='\A \[\e[36m\]\u\[\e[0;31m\]@\h\[\e[0;31m\]\[\e[m\]:[\[\e[2m\]\w\[\e[0m\]] '
-	unset PROMPT_COMMAND
-}
-git_prompt ()
-{
-	export PS1="${PREPS1}${COREPS1}${POSPS1}"
-}
-
-export GOROOT=/usr/lib/go
-export GOPATH=/home/sre/work/go/workspace
-export GOBIN=$GOROOT/bin
-export PATH="${HOME}.jx/bin:${PATH}:$GOBIN:$GOPATH:$GOPATH/bin:/usr/lib/ruby/vendor_ruby";
 
 # screen tabs to show the current operation, (i.e. vim, top, etc)
-source ~/preexec.bash.sh
-if [[ $TERM =~ "screen" ]]; then
-	preexec_xterm_title_install
-	source ~/screen-preexec.sh
-fi
-alias R='R --quiet'
-man() {
-    LESS_TERMCAP_md=$'\e[01;31m' \
-    LESS_TERMCAP_me=$'\e[0m' \
-    LESS_TERMCAP_se=$'\e[0m' \
-    LESS_TERMCAP_so=$'\e[01;44;33m' \
-    LESS_TERMCAP_ue=$'\e[0m' \
-    LESS_TERMCAP_us=$'\e[01;32m' \
-    command man "$@"
-}
-randTagFile () { perl -e '($ml)=(split " ",`wc -l tags`);$rl=int(rand($ml));while(<>){($f)=(split(/\t/))[1] if ($. == $rl)}print "$f\n"' tags; }
 export LANG="en_US"
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/sre/chroot/lib/
 export TERM=xterm-256color
 export LESS='-R'
 alias ll='ls -l'
 alias la='ls -la'
-alias yaml2json="ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(STDIN.read))'"
-alias json2yaml="ruby -ryaml -rjson -e 'puts YAML.dump(JSON.parse(STDIN.read))'"
-export LSCOLORS="exfxcxdxbxegedabagacad"
-export LS_COLORS='di=34;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'
-export GREP_COLOR='1;31'
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
-alias li='list_instances -r $AWS_DEFAULT_REGION -H ID,State,T:Name,IP,PrivateIP'
-alias proveall='prove -j9 --state=slow,save -lr t'
-export PROMPT_DIRTRIM=4
-source ~/utils.sh
+export BAT_STYLE=plain
+export MANPAGER=sh -c 'col -bx | bat -l man -p'
+alias grep='rg'
+
 # Add a forced cd to home/work, the default mount location, (by defaut the container drops us to / which is usually undesired.)
 # I guess this will have a bad side effect...
 if [[ "NONE" != "$TARGET_ENV" ]]; then
-	cd /home/sre/work/git/syseng
+	cd /home/sre/work/git/
 else
 	cd /home/sre/work
 fi
+
+eval "$(starship init bash)"
