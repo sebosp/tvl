@@ -1,24 +1,18 @@
 FROM alpine:20230329
 LABEL MAINTAINER Seb Osp <kraige@gmail.com>
 ENV L0_REFRESHED_AT 20230530
-ENV KUBECTL_VERSION 1.25.10
 ENV RUSTUP_TOOLCHAIN stable-x86_64-unknown-linux-musl
-ENV TERRAFORM_VERSION 0.11.11
-RUN set -ex \
-    && apk add --no-cache --update \
-       bash build-base bind-tools ca-certificates cmake ctags curl file \
-       findutils findutils-locate git grep groff jq less man-pages py3-pip \
-       mtr mysql-client ncurses-terminfo nmap-ncat helm \
+RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories \
+    && cat /etc/apk/repositories \
+    && set -xe \
+    && apk update \
+    && apk add \
+       bash terraform bind-tools ca-certificates curl file \
+       findutils findutils-locate git grep jq less man-pages py3-pip \
+       mtr ncurses-terminfo nmap-ncat helm \
        openssh-client openssl perl perl-utils postgresql-client \
        screen strace shadow tar zip ripgrep starship ansible fzf bat \
-    && echo http://dl-4.alpinelinux.org/alpine/edge/main/ >> /etc/apk/repositories \
-    && echo http://dl-4.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories \
-    && pip install --upgrade pip \
-    && pip install kubernetes awscli flake8 ansible \
-    && apk add --update cargo rust gosu \
-    && curl -sL https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl -o /usr/bin/kubectl \
-    && chmod a+x /usr/bin/kubectl \
-    && apk add vim neovim \
+    && apk add --update cargo rust gosu git-flow vim neovim kubectl \
     && mkdir -p /home/sre/.config/nvim/pack/main/start \
     && cd /home/sre/.config/nvim/pack/main/start \
     && git clone --depth 1 https://github.com/ciaranm/securemodelines \
@@ -45,38 +39,21 @@ RUN set -ex \
     && git clone --depth 1 https://github.com/godlygeek/tabular \
     && git clone --depth 1 https://github.com/plasticboy/vim-markdown \
     && git clone --depth 1 https://github.com/folke/tokyonight.nvim \
-    && curl -sLO https://raw.github.com/petervanderdoes/gitflow-avh/develop/contrib/gitflow-installer.sh \
-    && sh gitflow-installer.sh install stable \
-    && sed -i 's/readlink -e/readlink -f/g' /usr/local/bin/git-flow \
-    && rm -rf gitflow-installer.sh /usr/local/share/doc/gitflow \
     && ln -s /home/sre/work/.gitconfig /home/sre/.gitconfig \
     && ln -s /home/sre/work/.kube /home/sre/.kube \
-    && ln -s /home/sre/work/.aws /home/sre/.aws \
     && ln -s /home/sre/work/.ssh /home/sre/.ssh \
     && rm -rf /var/cache/apk/* \
     && rm -rf /var/cache/* \
     && mkdir /var/cache/apk \
-    && updatedb \
-    && apk add postgresql-libs \
-    && apk add --virtual .build-deps gcc musl-dev postgresql-dev \
-    && pip install --upgrade boto boto3 s3transfer configparser passlib \
-    && rm -rf /tmp/* \
-    && curl -sLO https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
-    && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
-    && mv terraform /usr/local/bin/ \
-    && rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
-    && apk --purge del .build-deps
+    && updatedb
 COPY files/vimrc /home/sre/.vimrc
 COPY files/init.vim /home/sre/.config/nvim/init.vim
+COPY files/starship.toml /home/sre/.config/starship.toml
 COPY files/vim /home/sre/.vim
 COPY files/bashrc /home/sre/.bashrc
 COPY files/screenrc /home/sre/.screenrc
-COPY files/git-prompt.sh /home/sre/
-COPY files/k8s-prompt.sh /home/sre/
-COPY files/aws-prompt.sh /home/sre/
-COPY files/ret-prompt.sh /home/sre/
 COPY files/utils.sh /home/sre/utils.sh
+COPY files/starship.toml /home/sre/starship.toml
 COPY files/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN pip install gitpython
 CMD ["/bin/bash"]
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

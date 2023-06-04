@@ -64,6 +64,7 @@ if [[ -d "/home/sre/work" ]]; then
 	ln -s /home/sre/work/.virtualenvs /home/sre/.virtualenvs
 	ln -s /home/sre/work/.helm /home/sre/.helm
 	ln -s /home/sre/work/.cache /home/sre/.cache
+	ln -s /home/sre/work/.cache /home/sre/.cache
 fi
 touch /home/sre/.rnd
 chown sre:sre /home/sre/.rnd
