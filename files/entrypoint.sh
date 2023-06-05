@@ -56,15 +56,9 @@ if [[ -d "/home/sre/work" ]]; then
 		mkdir /home/sre/work/.ssh
 		chmod 700 /home/sre/work/.ssh
 	fi
-	if [[ ! -d "/home/sre/work/.cache" ]]; then # For Go, might not be a good idea tho... Let's see.
-		mkdir /home/sre/work/.cache
-		chmod 700 /home/sre/work/.cache
-	fi
 	ln -s /home/sre/work/.ansible /home/sre/.ansible
 	ln -s /home/sre/work/.virtualenvs /home/sre/.virtualenvs
 	ln -s /home/sre/work/.helm /home/sre/.helm
-	ln -s /home/sre/work/.cache /home/sre/.cache
-	ln -s /home/sre/work/.cache /home/sre/.cache
 fi
 touch /home/sre/.rnd
 chown sre:sre /home/sre/.rnd
