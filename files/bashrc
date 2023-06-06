@@ -19,9 +19,11 @@ export TERM=xterm-256color
 export LESS='-R'
 alias ll='ls -l'
 alias la='ls -la'
+alias cat='bat'
 export BAT_STYLE=plain
 export MANPAGER='sh -c "col -bx | bat -l man -p"'
 alias grep='rg'
+alias vim='nvim'
 
 # Add a forced cd to home/work, the default mount location, (by defaut the container drops us to / which is usually undesired.)
 # I guess this will have a bad side effect...

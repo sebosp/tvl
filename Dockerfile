@@ -21,6 +21,7 @@ RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/reposito
     && git clone --depth 1 https://github.com/itchyny/lightline.vim \
     && git clone --depth 1 https://github.com/andymass/vim-matchup \
     && git clone --depth 1 https://github.com/airblade/vim-rooter \
+    && git clone --depth 1 https://github.com/airblade/vim-gitgutter \
     && git clone --depth 1 https://github.com/junegunn/fzf.vim \
     && git clone --depth 1 https://github.com/neovim/nvim-lspconfig \
     && git clone --depth 1 https://github.com/nvim-lua/lsp_extensions.nvim \
