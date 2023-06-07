@@ -1,5 +1,5 @@
 [![Docker Repository on Quay](https://quay.io/repository/sebosp/tvl/status?token=84ddb0a8-9059-4c43-9125-6d3949ad3e7f "Docker Repository on Quay")](https://quay.io/repository/sebosp/tvl)
-# tvl 2.0.8
+# tvl 3.0.0
 [![tvl asciicast](https://asciinema.org/a/119550.png)](https://asciinema.org/a/119550)
 
 Docker setup with my common work tools for Infrastructure As Code, Configuration Management, vIM
@@ -9,18 +9,15 @@ The Debian based had 99 vulnerabilities, whereas alpine passes.
 Debian package has 150 packages, alpine ends up with with 91 packages.
 
 ## Versions
-Docker image tagged 2.0.1
-There are two main images:
-2.0.0 contains kubectl 1.8.7 (For an old cluster that hasn't been upgrade).
-2.0.1 contains kubectl 1.10.5 (For GKE)
+Docker image tagged 3.0.0
 
 ## Pulling
 ```bash
-$ docker pull sebosp/tvl:2.0.0
+$ docker pull sebosp/tvl:3.0.0
 ```
 
 ## Main Components
-- Based on alpine:3.8
+- Based on alpine:20230523
 - Vim (With PaperColor, syntastic, airline, vim-go, vim-snippets, YouCompleteMe, UltiSnips)
 - Ansible
 - AWS CLI
