@@ -1,0 +1,6 @@
+# ~/.config/starship.toml
+
+# Since this is always run in Container mode, then no need to waste screen space
+[container]
+disabled = true
+
