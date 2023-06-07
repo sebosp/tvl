@@ -28,9 +28,7 @@ $ docker pull sebosp/tvl:3.0.0
 - Bash prompt with kubectl context/cluster.
 - Bash prompt with Current AWS Profile (`AWS_DEFAULT_PROFILE`)
 - Everyday shell utils.
-- Perl setup with perl-critic
 - Go with Go test utils.
-- Rust/Cargo with vim shortcuts for asynchronous tests.
 - Terraform
 
 ## Running
@@ -39,14 +37,14 @@ $ docker pull sebosp/tvl:3.0.0
 $ touch $HOME/.docker_bash_hist
  # Otherwise, you can do this to have bash_history shared
 $ ln -s $HOME/.bash_history $HOME/.docker_bash_hist
-$ docker run --rm -v $HOME/:/home/sre/work/ -e LOCAL_USER_ID=`id -u $USER` -it sebosp/tvl:2.0.0 
+$ docker run --rm -v $HOME/:/home/sre/work/ -e LOCAL_USER_ID=`id -u $USER` -it sebosp/tvl:3.0.0 
  # For isolating different AWS accounts, you can use -e ENV=<proj1_dev|proj1_qa|...>
  # The "ENV" must map to a file in $HOME/envs/ (i.e. $HOME/envs/proj1_qa)with contains source'able files for AWS credentials.
-$ docker run --rm --cap-add=SYS_PTRACE -v $HOME/:/home/sre/work/ -e ENV=proj1_qa -e LOCAL_USER_ID=`id -u $USER` -it sebosp/tvl:2.0.0 
+$ docker run --rm --cap-add=SYS_PTRACE -v $HOME/:/home/sre/work/ -e ENV=proj1_qa -e LOCAL_USER_ID=`id -u $USER` -it sebosp/tvl:3.0.0 
 ```
 
 ## Workarounds
 if strace is needed for a debugging something, you can use `--cap-add=SYS_PTRACE` as part of the docker run flags.
 
 ## TODO
-- Add gcloud
+...
