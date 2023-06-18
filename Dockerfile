@@ -48,7 +48,6 @@ COPY files/starship.toml /home/sre/.config/starship.toml
 COPY files/vim /home/sre/.vim
 COPY files/bashrc /home/sre/.bashrc
 COPY files/screenrc /home/sre/.screenrc
-COPY files/utils.sh /home/sre/utils.sh
 COPY files/starship.toml /home/sre/starship.toml
 COPY files/entrypoint.sh /usr/local/bin/entrypoint.sh
 CMD ["/bin/bash"]
