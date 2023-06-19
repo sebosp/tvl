@@ -1,26 +1,21 @@
 FROM alpine:20230329
 LABEL MAINTAINER Seb Osp <kraige@gmail.com>
-ENV L0_REFRESHED_AT 20230530
-ENV RUSTUP_TOOLCHAIN stable-x86_64-unknown-linux-musl
+ENV L0_REFRESHED_AT 20230617
 RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories \
     && cat /etc/apk/repositories \
     && set -xe \
-    && apk update \
-    && apk add \
+    && apk add --update \
        bash terraform bind-tools ca-certificates curl file \
-       findutils findutils-locate git grep jq less man-pages py3-pip \
-       mtr ncurses-terminfo nmap-ncat helm \
+       findutils findutils-locate git grep jq yq less man-pages py3-pip \
+       mtr ncurses-terminfo nmap-ncat helm su-exec \
        openssh-client openssl perl perl-utils postgresql-client \
-       screen strace shadow tar zip ripgrep starship ansible fzf bat \
-    && apk add --update cargo rust gosu git-flow vim neovim kubectl \
+       screen shadow tar zip ripgrep starship ansible fzf bat fd \
+    && apk add --update git-flow neovim kubectl \
     && mkdir -p /home/sre/.config/nvim/pack/main/start \
     && cd /home/sre/.config/nvim/pack/main/start \
     && git clone --depth 1 https://github.com/ciaranm/securemodelines \
     && git clone --depth 1 https://github.com/editorconfig/editorconfig-vim \
-    && git clone --depth 1 https://github.com/justinmk/vim-sneak \
     && git clone --depth 1 https://github.com/itchyny/lightline.vim \
-    && git clone --depth 1 https://github.com/andymass/vim-matchup \
-    && git clone --depth 1 https://github.com/airblade/vim-rooter \
     && git clone --depth 1 https://github.com/airblade/vim-gitgutter \
     && git clone --depth 1 https://github.com/junegunn/fzf.vim \
     && git clone --depth 1 https://github.com/neovim/nvim-lspconfig \
@@ -36,7 +31,6 @@ RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/reposito
     && git clone --depth 1 https://github.com/stephpy/vim-yaml \
     && git clone --depth 1 https://github.com/rust-lang/rust.vim \
     && git clone --depth 1 https://github.com/rhysd/vim-clang-format \
-    && git clone --depth 1 https://github.com/dag/vim-fish \
     && git clone --depth 1 https://github.com/godlygeek/tabular \
     && git clone --depth 1 https://github.com/plasticboy/vim-markdown \
     && git clone --depth 1 https://github.com/folke/tokyonight.nvim \
@@ -46,6 +40,7 @@ RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/reposito
     && rm -rf /var/cache/apk/* \
     && rm -rf /var/cache/* \
     && mkdir /var/cache/apk \
+    && apk update \
     && updatedb
 COPY files/vimrc /home/sre/.vimrc
 COPY files/init.vim /home/sre/.config/nvim/init.vim
@@ -53,7 +48,6 @@ COPY files/starship.toml /home/sre/.config/starship.toml
 COPY files/vim /home/sre/.vim
 COPY files/bashrc /home/sre/.bashrc
 COPY files/screenrc /home/sre/.screenrc
-COPY files/utils.sh /home/sre/utils.sh
 COPY files/starship.toml /home/sre/starship.toml
 COPY files/entrypoint.sh /usr/local/bin/entrypoint.sh
 CMD ["/bin/bash"]

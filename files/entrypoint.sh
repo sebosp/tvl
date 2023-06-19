@@ -66,4 +66,4 @@ mkdir -p /home/sre/.local
 chown -R sre:sre /home/sre/.cache/starship
 chown -R sre:sre /home/sre/.local
 chown sre:sre /home/sre/.rnd
-exec /usr/bin/gosu sre /bin/bash
+exec su-exec sre /bin/bash
