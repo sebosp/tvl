@@ -1,12 +1,12 @@
-FROM alpine:20230329
+FROM alpine:3.18.2
 LABEL MAINTAINER Seb Osp <kraige@gmail.com>
-ENV L0_REFRESHED_AT 20230617
+ENV L0_REFRESHED_AT 20230620
 RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories \
     && cat /etc/apk/repositories \
     && set -xe \
-    && apk add --update \
+    && apk add --update --no-install-recommends \
        bash terraform bind-tools ca-certificates curl file \
-       findutils findutils-locate git grep jq yq less man-pages py3-pip \
+       findutils findutils-locate git grep yq less man-pages py3-pip \
        mtr ncurses-terminfo nmap-ncat helm su-exec \
        openssh-client openssl perl perl-utils postgresql-client \
        screen shadow tar zip ripgrep starship ansible fzf bat fd \
