@@ -15,7 +15,7 @@ export HISTFILE=$HOME/work/.dock_bash_hist
 
 # screen tabs to show the current operation, (i.e. vim, top, etc)
 export LANG="en_US"
-export TERM=xterm-256color
+export TERM=screen-256color
 export LESS='-R'
 alias ll='ls -l'
 alias la='ls -la'
