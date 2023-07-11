@@ -1,39 +1,16 @@
 FROM alpine:3.18.2
 LABEL MAINTAINER Seb Osp <kraige@gmail.com>
-ENV L0_REFRESHED_AT 20230620
-RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories \
-    && cat /etc/apk/repositories \
-    && set -xe \
-    && apk add --update --no-install-recommends \
+ENV L0_REFRESHED_AT 20230711
+ADD files/pack.tar.gz /home/sre/.config/nvim/pack/main/start
+RUN set -xe \
+    && apk add --update \
        bash terraform bind-tools ca-certificates curl file \
        findutils findutils-locate git grep yq less man-pages py3-pip \
        mtr ncurses-terminfo nmap-ncat helm su-exec \
        openssh-client openssl perl perl-utils postgresql-client \
        screen shadow tar zip ripgrep starship ansible fzf bat fd \
+    && echo https://dl-cdn.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
     && apk add --update git-flow neovim kubectl \
-    && mkdir -p /home/sre/.config/nvim/pack/main/start \
-    && cd /home/sre/.config/nvim/pack/main/start \
-    && git clone --depth 1 https://github.com/ciaranm/securemodelines \
-    && git clone --depth 1 https://github.com/editorconfig/editorconfig-vim \
-    && git clone --depth 1 https://github.com/itchyny/lightline.vim \
-    && git clone --depth 1 https://github.com/airblade/vim-gitgutter \
-    && git clone --depth 1 https://github.com/junegunn/fzf.vim \
-    && git clone --depth 1 https://github.com/neovim/nvim-lspconfig \
-    && git clone --depth 1 https://github.com/nvim-lua/lsp_extensions.nvim \
-    && git clone --depth 1 https://github.com/hrsh7th/cmp-nvim-lsp \
-    && git clone --depth 1 https://github.com/hrsh7th/cmp-buffer \
-    && git clone --depth 1 https://github.com/hrsh7th/cmp-path \
-    && git clone --depth 1 https://github.com/hrsh7th/nvim-cmp \
-    && git clone --depth 1 https://github.com/ray-x/lsp_signature.nvim \
-    && git clone --depth 1 https://github.com/hrsh7th/cmp-vsnip \
-    && git clone --depth 1 https://github.com/hrsh7th/vim-vsnip \
-    && git clone --depth 1 https://github.com/cespare/vim-toml \
-    && git clone --depth 1 https://github.com/stephpy/vim-yaml \
-    && git clone --depth 1 https://github.com/rust-lang/rust.vim \
-    && git clone --depth 1 https://github.com/rhysd/vim-clang-format \
-    && git clone --depth 1 https://github.com/godlygeek/tabular \
-    && git clone --depth 1 https://github.com/plasticboy/vim-markdown \
-    && git clone --depth 1 https://github.com/folke/tokyonight.nvim \
     && ln -s /home/sre/work/.gitconfig /home/sre/.gitconfig \
     && ln -s /home/sre/work/.kube /home/sre/.kube \
     && ln -s /home/sre/work/.ssh /home/sre/.ssh \
