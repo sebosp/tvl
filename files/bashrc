@@ -33,4 +33,6 @@ else
 	cd /home/sre/work
 fi
 
+source /usr/share/fzf/key-bindings.bash
+
 eval "$(starship init bash)"
