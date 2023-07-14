@@ -1,16 +1,16 @@
 FROM alpine:3.18.2
 LABEL MAINTAINER Seb Osp <kraige@gmail.com>
 ENV L0_REFRESHED_AT 20230711
-ADD files/pack.tar.gz /home/sre/.config/nvim/pack/main/start
+ADD files/pack.tar.gz /home/sre/.config/nvim/pack/main/
 RUN set -xe \
     && apk add --update \
        bash terraform bind-tools ca-certificates curl file \
        findutils findutils-locate git grep yq less man-pages py3-pip \
-       mtr ncurses-terminfo nmap-ncat helm su-exec \
+       mtr ncurses-terminfo nmap-ncat neovim helm su-exec \
        openssh-client openssl perl perl-utils postgresql-client \
        screen shadow tar zip ripgrep starship ansible fzf bat fd \
     && echo https://dl-cdn.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
-    && apk add --update git-flow neovim kubectl \
+    && apk add --update git-flow kubectl \
     && ln -s /home/sre/work/.gitconfig /home/sre/.gitconfig \
     && ln -s /home/sre/work/.kube /home/sre/.kube \
     && ln -s /home/sre/work/.ssh /home/sre/.ssh \
