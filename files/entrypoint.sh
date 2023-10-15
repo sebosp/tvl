@@ -35,15 +35,6 @@ if [[ -d "/home/$CNT_USERNAME/work" ]]; then
 		git config --global --add alias.lol "log --graph --decorate --pretty=oneline --abbrev-commit --all"
 	fi
 fi
-<<<<<<< Updated upstream
-touch /home/sre/.rnd
-mkdir -p /home/sre/.cache/starship
-mkdir -p /home/sre/.local
-chown -R sre:sre /home/sre/.cache/starship
-chown -R sre:sre /home/sre/.local
-chown sre:sre /home/sre/.rnd
-exec su-exec sre /bin/bash
-=======
 touch /home/$CNT_USERNAME/.rnd
 for config in .screenrc .bashrc .cargo .config .npm .local; do cp -r /root/$config /home/$CNT_USERNAME/; chown -R $CNT_USERNAME:$CNT_GROUPNAME /home/ubuntu/$config;done
 
@@ -51,4 +42,3 @@ mkdir -p /home/$CNT_USERNAME/.cache
 chown -R $CNT_USERNAME:$CNT_GROUPNAME /home/$CNT_USERNAME/.cache
 chown $CNT_USERNAME:$CNT_GROUPNAME /home/$CNT_USERNAME/.rnd
 exec gosu $CNT_USERNAME /bin/bash
->>>>>>> Stashed changes

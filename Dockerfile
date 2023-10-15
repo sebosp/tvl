@@ -52,7 +52,7 @@ RUN set -xe \
       coc-fzf-preview \
       coc-rust-analyzer \
       --install-strategy=shallow --ignore-scripts --no-bin-links --no-package-lock --omit=dev \
-    && nvim -E -s -u "/root/.config/nvim/init.vim" +"CocInstall coc-rust-analyzer" +qall \
+    && nvim -E -s -u "/root/.config/nvim/plug-install.vim" +CocInstall\ coc-rust-analyzer +qall \
     && mkdir /usr/share/fzf \
     && curl -sLo /usr/share/fzf/key-bindings.bash https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.bash \
     && updatedb

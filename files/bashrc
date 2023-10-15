@@ -33,11 +33,8 @@ else
 	cd $HOME/work
 fi
 
-<<<<<<< Updated upstream
-=======
 export PATH=$PATH:$HOME/.cargo/bin:$HOME/.local/bin
 source /usr/share/bash-completion/completions/fzf
->>>>>>> Stashed changes
 source /usr/share/fzf/key-bindings.bash
 
 eval "$(starship init bash)"
