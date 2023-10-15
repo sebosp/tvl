@@ -33,6 +33,9 @@ else
 	cd /home/sre/work
 fi
 
+export PATH=$PATH:/home/sre/.local/bin
+source /usr/share/fzf/completion.bash
 source /usr/share/fzf/key-bindings.bash
+. "$HOME/.cargo/env"
 
 eval "$(starship init bash)"

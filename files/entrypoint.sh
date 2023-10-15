@@ -61,9 +61,13 @@ if [[ -d "/home/sre/work" ]]; then
 	ln -s /home/sre/work/.helm /home/sre/.helm
 fi
 touch /home/sre/.rnd
-mkdir -p /home/sre/.cache/starship
+mkdir -p /home/sre/.cache
 mkdir -p /home/sre/.local
-chown -R sre:sre /home/sre/.cache/starship
+mkdir -p /home/sre/.config/coc
+chown -R sre:sre /home/sre/.cache
 chown -R sre:sre /home/sre/.local
+chown -R sre:sre /home/sre/.config
+chown -R sre:sre /home/sre/.cargo
+chown -R sre:sre /home/sre/.rustup
 chown sre:sre /home/sre/.rnd
 exec su-exec sre /bin/bash
