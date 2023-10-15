@@ -1,0 +1,9 @@
+{
+    "rust-analyzer.cargo.allFeatures": true,
+    "rust-analyzer.updates.checkOnStartup": false,
+    "rust-analyzer.server.path": "$HOME/.local/bin/rust-analyzer",
+    "rust-analyzer.checkOnSave.command": "clippy",
+    "rust-analyzer.diagnostics.disabled": [
+        "macro-error"
+    ]
+}
