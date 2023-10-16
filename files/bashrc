@@ -5,8 +5,8 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-export VISUAL=vi
-export EDITOR=vi
+export VISUAL=nvim
+export EDITOR=nvim
 export HISTSIZE=10000
 export HISTFILESIZE=50000
 shopt -s histappend
@@ -19,7 +19,7 @@ export TERM=screen-256color
 export LESS='-R'
 alias ll='ls -l'
 alias la='ls -la'
-alias cat='bat'
+alias cat='batcat'
 export BAT_STYLE=plain
 export MANPAGER='sh -c "col -bx | bat -l man -p"'
 alias grep='rg'
@@ -28,11 +28,14 @@ alias vim='nvim'
 # Add a forced cd to home/work, the default mount location, (by defaut the container drops us to / which is usually undesired.)
 # I guess this will have a bad side effect...
 if [[ "NONE" != "$TARGET_ENV" ]]; then
-	cd /home/sre/work/git/
+	cd $HOME/work/git/
 else
-	cd /home/sre/work
+	cd $HOME/work
 fi
 
+source $HOME/.cargo/env
+export PATH=$PATH:$HOME/.cargo/bin:$HOME/.local/bin
+source /usr/share/bash-completion/completions/fzf
 source /usr/share/fzf/key-bindings.bash
 
 eval "$(starship init bash)"
