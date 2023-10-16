@@ -13,7 +13,7 @@ Plug 'andymass/vim-matchup'
 " Fuzzy finder
 Plug 'airblade/vim-rooter'
 Plug 'airblade/vim-gitgutter'
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 " Use release branch

@@ -33,6 +33,7 @@ else
 	cd $HOME/work
 fi
 
+source $HOME/.cargo/env
 export PATH=$PATH:$HOME/.cargo/bin:$HOME/.local/bin
 source /usr/share/bash-completion/completions/fzf
 source /usr/share/fzf/key-bindings.bash
