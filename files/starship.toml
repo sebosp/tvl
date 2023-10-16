@@ -2,5 +2,8 @@
 
 # Since this is always run in Container mode, then no need to waste screen space
 [container]
-disabled = true
+symbol = '⬢'
+style ='bold blue dimmed'
+format = '[$symbol$env_value]($style) '
+# disabled = true
 
