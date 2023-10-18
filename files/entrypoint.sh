@@ -28,15 +28,12 @@ fi
 
 if [[ -d "/home/$CNT_USERNAME/work" ]]; then
 	if [[ ! -f "/home/$CNT_USERNAME/work/.gitconfig" ]]; then
-		echo "Missing host's .gitconfig file, please run: ";
-		echo '$ git config --global user.name "John Doe"'
-		echo '$ git config --global user.email johndoe@example.com"'
 		touch /home/$CNT_USERNAME/work/.gitconfig
 		git config --global --add alias.lol "log --graph --decorate --pretty=oneline --abbrev-commit --all"
 	fi
 fi
 touch /home/$CNT_USERNAME/.rnd
-for config in .fzf .screenrc .bashrc .cargo .config .npm .local .rustup; do cp -r /root/$config /home/$CNT_USERNAME/; chown -R $CNT_USERNAME:$CNT_GROUPNAME /home/$CNT_USERNAME/$config;done
+for config in .fzf .screenrc .bashrc .cargo .config .npm .local .rustup vendored; do [[ -e /root/$config ]] && mv /root/$config /home/$CNT_USERNAME/ && chown -R $CNT_USERNAME:$CNT_GROUPNAME /home/$CNT_USERNAME/$config;done
 
 mkdir -p /home/$CNT_USERNAME/.cache
 chown -R $CNT_USERNAME:$CNT_GROUPNAME /home/$CNT_USERNAME/.cache
