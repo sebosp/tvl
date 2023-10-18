@@ -36,7 +36,7 @@ if [[ -d "/home/$CNT_USERNAME/work" ]]; then
 	fi
 fi
 touch /home/$CNT_USERNAME/.rnd
-for config in .fzf .screenrc .bashrc .cargo .config .npm .local .rustup; do cp -r /root/$config /home/$CNT_USERNAME/; chown -R $CNT_USERNAME:$CNT_GROUPNAME /home/ubuntu/$config;done
+for config in .fzf .screenrc .bashrc .cargo .config .npm .local .rustup; do cp -r /root/$config /home/$CNT_USERNAME/; chown -R $CNT_USERNAME:$CNT_GROUPNAME /home/$CNT_USERNAME/$config;done
 
 mkdir -p /home/$CNT_USERNAME/.cache
 chown -R $CNT_USERNAME:$CNT_GROUPNAME /home/$CNT_USERNAME/.cache
