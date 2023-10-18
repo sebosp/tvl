@@ -32,15 +32,19 @@ $ docker pull sebOsp/tvl:3.1.1-ubuntu
 
 ## Running
 
-In the ubuntu version, the /home/sre has been replaced by /home/ubuntu. This is because the ubuntu version ships with its own ubuntu username UID 1000.
+In the ubuntu version, if the outside user id is 1000, it has to use `/home/ubuntu`
+Otherwise `/home/sre` needs to be used, this is so that we can preserve the user id inside the container.
+
 ```bash
- # If you want to have history for docker separately, do this:
-$ touch $HOME/.docker_bash_hist
- # Otherwise, you can do this to have bash_history shared
-$ ln -s $HOME/.bash_history $HOME/.docker_bash_hist
-$ docker run --rm --name test -v $HOME/:/home/ubuntu/work/ -e LOCAL_USER_ID=(id -u $USER) -it sebosp/tvl:3.1.1-ubuntu
-# To work without networking:
-$ docker run --network none --rm --name test -v $HOME/:/home/ubuntu/work/ -e LOCAL_USER_ID=(id -u $USER) -it sebosp/tvl:3.1.1-ubuntu
+$ mkdir -p rust-root/git/
+$ docker run --network none --rm --name test -v $HOME/rust-root:/home/sre/work/ -e LOCAL_USER_ID=$(id -u $USER) -it sebosp/tvl:3.1.3-ubuntu
+$ cat <project/>.cargo/config.toml
+[source.crates-io]
+replace-with = "vendored-sources"
+
+[source.vendored-sources]
+directory = "/home/sre/vendored/vendor"
+
 ```
 
 ## Workarounds

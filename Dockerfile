@@ -65,6 +65,12 @@ RUN set -xe \
     && curl -sLo /usr/share/fzf/key-bindings.bash https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.bash \
     && updatedb
 COPY files/bashrc /root/.bashrc
+COPY files/sampleCargo.toml /root/vendored/Cargo.toml
+COPY files/hello.rs /root/vendored/src/main.rs
+RUN set -xe \
+    && . /root/.cargo/env \
+    && cd /root/vendored/ \
+    && cargo vendor
 COPY files/screenrc /root/.screenrc
 COPY files/entrypoint.sh /usr/local/bin/entrypoint.sh
 CMD ["/bin/bash"]
